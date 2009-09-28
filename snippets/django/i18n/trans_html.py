@@ -1,0 +1,7 @@
+<!--
+    category: Django_I18N
+    name: wrap in trans
+    toolTip: wrap in trans
+    
+-->
+{% trans '${selection}' %}
