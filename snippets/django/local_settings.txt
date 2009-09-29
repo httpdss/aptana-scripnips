@@ -1,0 +1,22 @@
+<!--
+    category: Django
+    name: local settings
+    toolTip: local settings default values
+    prompt(DEBUG): Set debug mode (True or False)
+    prompt(DATABASE_ENGINE): Set database engine (postgresql_psycopg2, postgresql, mysql, sqlite3 or ado_mssql)
+    prompt(DATABASE_NAME): Set database name or database file if using sqlite 
+    prompt(DATABASE_USER): Enter database user
+    prompt(DATABASE_PASSWORD): Enter database password
+    prompt(DATABASE_HOST): Enter database hostname
+    prompt(DATABASE_PORT): Enter database port
+-->
+
+DEBUG = ${DEBUG}
+TEMPLATE_DEBUG = DEBUG
+
+DATABASE_ENGINE = '${DATABASE_ENGINE}'
+DATABASE_NAME = '${DATABASE_NAME}'
+DATABASE_USER = '${DATABASE_USER}'
+DATABASE_PASSWORD = '${DATABASE_PASSWORD}'
+DATABASE_HOST = '${DATABASE_HOST}'
+DATABASE_PORT = '${DATABASE_PORT}'
