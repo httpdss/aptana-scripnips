@@ -1,5 +1,5 @@
 <!--
-    category: Django
+    category: Django_Settings
     name: local settings
     toolTip: local settings default values
     prompt(DEBUG): Set debug mode (True or False)

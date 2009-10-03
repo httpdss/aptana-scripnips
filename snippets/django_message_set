@@ -1,0 +1,7 @@
+<!--
+    category: Django_Templates
+    name: add message_set to view
+    toolTip: add message_set to view
+    prompt(msg): Type in message
+-->
+request.user.message_set.create(message=_("${msg}"))
