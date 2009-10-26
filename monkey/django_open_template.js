@@ -1,7 +1,7 @@
 /*
  * Menu: Django > Open template
  * Key: M1+M2+F3
- * Kudos: Kevin Lindsey
+ * Kudos: Kenneth Belitzky
  * License: EPL 1.0
  * DOM: http://download.eclipse.org/technology/dash/update/org.eclipse.eclipsemonkey.lang.javascript
  * DOM: http://localhost/com.aptana.ide.scripting

@@ -1,0 +1,9 @@
+<!--
+    category: JQTouch
+    name: Add info div
+    toolTip: Add info div
+    prompt(text): Enter text for info
+-->
+<div class="info">
+    <p>${text}</p>
+</div>

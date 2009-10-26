@@ -1,0 +1,11 @@
+<!--
+    category: JQTouch
+    name: Add individual div
+    toolTip: Add individual div
+    prompt(link1): Enter first link text
+    prompt(link2): Enter second link text 
+-->
+<ul class="individual">
+    <li><a href="">${link1}</a></li>
+    <li><a href="">${link2}</a></li>
+</ul>

@@ -1,0 +1,9 @@
+<!--
+    category: JQTouch
+    name: Add toolbar div
+    toolTip: Add toolbar div
+    prompt(title): Enter title
+-->
+<div class="toolbar">
+    <h1>${title}</h1>
+</div>

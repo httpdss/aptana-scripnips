@@ -1,0 +1,6 @@
+<!--
+    category: Django_Templates
+    name: insert STATIC_URL
+    toolTip: insert STATIC_URL
+-->
+{{ STATIC_URL }}
