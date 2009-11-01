@@ -1,0 +1,7 @@
+<!--
+    category: RestructuredText
+    name: Insert external link
+    prompt(text): Enter text
+    prompt(link): Enter link url
+-->
+`${text} <${link}>`_

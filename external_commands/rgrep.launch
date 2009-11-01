@@ -4,5 +4,5 @@
 <listEntry value="org.eclipse.ui.externaltools.launchGroup"/>
 </listAttribute>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="/bin/grep"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="--color=auto -nRi ${string_prompt} ${selected_resource_loc}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_TOOL_ARGUMENTS" value="-nRi ${string_prompt} ${selected_resource_loc}"/>
 </launchConfiguration>

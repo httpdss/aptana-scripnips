@@ -1,0 +1,8 @@
+<!--
+    category: RestructuredText
+    name: Insert image
+    toolTip: insert an image
+    prompt(name): Insert image path
+-->
+
+.. image:: ${name}

@@ -1,0 +1,5 @@
+<!--
+    category: RestructuredText
+    name: Wrap in italics
+-->
+*${selection}*
