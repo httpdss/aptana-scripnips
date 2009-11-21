@@ -1,0 +1,7 @@
+<!--
+    category: Django_Models
+    name: register model on admin
+    prompt(model): model name
+    prompt(admin): admin name
+-->
+admin.site.register(${model}, ${admin})
