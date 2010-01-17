@@ -1,8 +1,8 @@
 /*
- * Menu: Zen Coding > Next Edit Point
+ * Menu: Zen Coding > Balance Tag Inward
  * Kudos: Sergey Chikuyonok (http://chikuyonok.ru)
  * License: EPL 1.0
- * Key: M3+CTRL+]
+ * Key: M1+M2+D
  * DOM: http://download.eclipse.org/technology/dash/update/org.eclipse.eclipsemonkey.lang.javascript
  * 
  * @include "/EclipseMonkey/scripts/monkey-doc.js"
@@ -12,5 +12,5 @@ include('zencoding.js');
 
 function main() {
 	zen_editor.setContext(editors.activeEditor);
-	nextEditPoint(zen_editor);
+	matchPair(zen_editor, 'in');
 }

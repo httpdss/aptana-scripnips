@@ -5,6 +5,9 @@
  * Key: M3+W
  * DOM: http://download.eclipse.org/technology/dash/update/org.eclipse.eclipsemonkey.lang.javascript
  * 
+ * This is Aptana-specific action because it utilizes native Aptana
+ * "Modify pair tag" options. No need to move this action to zen_actions.js
+ * 
  * @include "/EclipseMonkey/scripts/monkey-doc.js"
  */
  
@@ -16,12 +19,12 @@ function main() {
 		end_ix = editor.selectionRange.endingOffset;
 		
 	if (start_ix == end_ix) {
-		// нет выделения — будем обрамлять всю строку
+		// no selection — wrap whole string
 		var cur_line = editor.getLineAtOffset(start_ix);
 		start_ix = editor.getOffsetAtLine(cur_line);
 		end_ix = editor.getOffsetAtLine(cur_line + 1) - editor.lineDelimiter.length;
 		
-		// не нужно учитывать отступ в начале и в конце строки
+		// don't respect starting and ending padding
 		var line = editor.source.substring(start_ix, end_ix);
 		var m = line.match(/^\s+/);
 		if (m)

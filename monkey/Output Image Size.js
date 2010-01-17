@@ -2,7 +2,7 @@
  * Menu: Zen Coding > Output Image Size 
  * Kudos: Sergey Chikuyonok (http://chikuyonok.ru)
  * License: EPL 1.0 
- * Key: M3+I
+ * Key: CTRL+I
  * DOM: http://download.eclipse.org/technology/dash/update/org.eclipse.eclipsemonkey.lang.javascript
  * 
  * @include "/EclipseMonkey/scripts/monkey-doc.js"
