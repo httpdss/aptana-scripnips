@@ -494,15 +494,30 @@ var zen_settings = {
 	},
 	
 	'html': {
+		'filters': 'html',
 		'snippets': {
+            'dj:block': '{% block | %}\n\n{% endblock %}',
+            'djv': '{{ | }}',
+            'dje': '{% | %}',
+            'dj:load': '{% load | %}\n',
+            'dj:ife': '{% if | %}\n\t${child}\n{% else %}\n\n{% endif %}',
+            'dj:if': '{% if | %}\n\t${child}\n{% endif %}',
+            'dj:for': '{% for | in %}\n${child}\n{% endfor %}',
+            'dj:comment': '{% comment %}\n${child}\n{% endcomment %}',
+            'jq:v3': '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>',
+            'jq:v4': '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>',
+            'jqui:v7': '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery-ui.min.js"></script>',
+            'swfobject': '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/swfobject/2.2/swfobject.js"></script>',
+            'yui': '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2/build/yuiloader/yuiloader-min.js"></script>',
+            'ext:core': '<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/yui/2.8.0r4/build/yuiloader/yuiloader-min.js"></script>',
 			'cc:ie6': '<!--[if lte IE 6]>\n\t${child}|\n<![endif]-->',
 			'cc:ie': '<!--[if IE]>\n\t${child}|\n<![endif]-->',
 			'cc:noie': '<!--[if !IE]><!-->\n\t${child}|\n<!--<![endif]-->',
 			'html:4t': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">\n' +
 					'<html lang="${lang}">\n' +
 					'<head>\n' +
-					'	<title></title>\n' +
 					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}">\n' +
+					'	<title></title>\n' +
 					'</head>\n' +
 					'<body>\n\t${child}|\n</body>\n' +
 					'</html>',
@@ -510,8 +525,8 @@ var zen_settings = {
 			'html:4s': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">\n' +
 					'<html lang="${lang}">\n' +
 					'<head>\n' +
-					'	<title></title>\n' +
 					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}">\n' +
+					'	<title></title>\n' +
 					'</head>\n' +
 					'<body>\n\t${child}|\n</body>\n' +
 					'</html>',
@@ -519,8 +534,8 @@ var zen_settings = {
 			'html:xt': '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n' +
 					'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}">\n' +
 					'<head>\n' +
-					'	<title></title>\n' +
 					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}" />\n' +
+					'	<title></title>\n' +
 					'</head>\n' +
 					'<body>\n\t${child}|\n</body>\n' +
 					'</html>',
@@ -528,8 +543,8 @@ var zen_settings = {
 			'html:xs': '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n' +
 					'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}">\n' +
 					'<head>\n' +
-					'	<title></title>\n' +
 					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}" />\n' +
+					'	<title></title>\n' +
 					'</head>\n' +
 					'<body>\n\t${child}|\n</body>\n' +
 					'</html>',
@@ -537,8 +552,8 @@ var zen_settings = {
 			'html:xxs': '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n' +
 					'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}">\n' +
 					'<head>\n' +
-					'	<title></title>\n' +
 					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}" />\n' +
+					'	<title></title>\n' +
 					'</head>\n' +
 					'<body>\n\t${child}|\n</body>\n' +
 					'</html>',
@@ -546,8 +561,8 @@ var zen_settings = {
 			'html:5': '<!DOCTYPE HTML>\n' +
 					'<html lang="${locale}">\n' +
 					'<head>\n' +
-					'	<title></title>\n' +
 					'	<meta charset="${charset}">\n' +
+					'	<title></title>\n' +
 					'</head>\n' +
 					'<body>\n\t${child}|\n</body>\n' +
 					'</html>'
@@ -687,7 +702,8 @@ var zen_settings = {
 	},
 	
 	'xsl': {
-		'extends': 'html', 
+		'extends': 'html',
+		'filters': 'html, xsl',
 		'abbreviations': {
 			'tm': '<xsl:template match="" mode=""></xsl:template>',
 			'tmatch': 'tm',
@@ -705,10 +721,16 @@ var zen_settings = {
 			'val': '<xsl:value-of select=""/>',
 			'co': '<xsl:copy-of select=""/>',
 			'each': '<xsl:for-each select=""></xsl:for-each>',
+			'for': 'each',
 			'ap': '<xsl:apply-templates select="" mode=""/>',
 			
 			//expandos
 			'choose+': 'xsl:choose>xsl:when+xsl:otherwise'
 		}
+	},
+	
+	'haml': {
+		'filters': 'haml',
+		'extends': 'html'
 	}
 };

@@ -1,0 +1,8 @@
+<!--
+    category: Gtk
+    name: add separator
+-->
+spacer = gtk.SeparatorToolItem()
+spacer.props.draw = False
+toolbar_box.toolbar.insert(spacer, -1)
+spacer.show()

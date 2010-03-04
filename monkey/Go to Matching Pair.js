@@ -12,5 +12,5 @@ include('zencoding.js');
 
 function main() {
 	zen_editor.setContext(editors.activeEditor);
-	goToMatchingPair(zen_editor);
+	zen_coding.runAction('matching_pair', zen_editor);
 }

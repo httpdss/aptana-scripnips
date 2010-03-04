@@ -1,0 +1,18 @@
+<!--
+    category: Sugar
+    name: Create activity.info
+    prompt(name): Enter name
+    prompt(bundle_id): Enter bundle_id
+    prompt(class): Enter class
+    prompt(icon): Enter icon
+    prompt(activity_version): Enter activity_version
+    prompt(host_version): Enter host_version
+    prompt(show_launcher): Enter show_launcher
+-->
+name = ${name}
+bundle_id = ${bundle_id}
+class = ${class}
+icon = ${icon}
+activity_version = ${activity_version}
+host_version = ${host_version}
+show_launcher = ${show_launcher}

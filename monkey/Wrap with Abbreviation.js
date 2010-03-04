@@ -21,5 +21,5 @@ function main() {
 	zen_editor.setContext(editors.activeEditor);
 	var abbr = prompt('Enter abbreviation:');
 	if (abbr)
-		wrapWithAbbreviation(zen_editor, abbr, zen_editor.getSyntax(), zen_editor.getProfileName());
+		zen_coding.runAction('wrap_with_abbreviation', zen_editor, abbr);
 }

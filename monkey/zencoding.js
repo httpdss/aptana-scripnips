@@ -1,717 +1,6 @@
+include('zen_settings.js');
+zen_coding = (function(){
 /**
- * Zen Coding settings
- * @author Sergey Chikuyonok (serge.che@gmail.com)
- * @link http://chikuyonok.ru
- */
-var zen_settings = {
-	/** 
-	 * Variables that can be placed inside snippets or abbreviations as ${variable}
-	 * ${child} variable is reserved, don't use it 
-	 */
-	'variables': {
-		'lang': 'en',
-		'locale': 'en-US',
-		'charset': 'UTF-8',
-		'profile': 'xhtml',
-		
-		/** Inner element indentation */
-		'indentation': '\t'     // TODO take from Aptana settings
-	},
-	
-	'css': {
-		'snippets': {
-			"@i": "@import url(|);",
-			"@m": "@media print {\n\t|\n}",
-			"@f": "@font-face {\n\tfont-family:|;\n\tsrc:url(|);\n}",
-			"!": "!important",
-			"pos": "position:|;",
-			"pos:s": "position:static;",
-			"pos:a": "position:absolute;",
-			"pos:r": "position:relative;",
-			"pos:f": "position:fixed;",
-			"t": "top:|;",
-			"t:a": "top:auto;",
-			"r": "right:|;",
-			"r:a": "right:auto;",
-			"b": "bottom:|;",
-			"b:a": "bottom:auto;",
-			"l": "left:|;",
-			"l:a": "left:auto;",
-			"z": "z-index:|;",
-			"z:a": "z-index:auto;",
-			"fl": "float:|;",
-			"fl:n": "float:none;",
-			"fl:l": "float:left;",
-			"fl:r": "float:right;",
-			"cl": "clear:|;",
-			"cl:n": "clear:none;",
-			"cl:l": "clear:left;",
-			"cl:r": "clear:right;",
-			"cl:b": "clear:both;",
-			"d": "display:|;",
-			"d:n": "display:none;",
-			"d:b": "display:block;",
-			"d:ib": "display:inline;",
-			"d:li": "display:list-item;",
-			"d:ri": "display:run-in;",
-			"d:cp": "display:compact;",
-			"d:tb": "display:table;",
-			"d:itb": "display:inline-table;",
-			"d:tbcp": "display:table-caption;",
-			"d:tbcl": "display:table-column;",
-			"d:tbclg": "display:table-column-group;",
-			"d:tbhg": "display:table-header-group;",
-			"d:tbfg": "display:table-footer-group;",
-			"d:tbr": "display:table-row;",
-			"d:tbrg": "display:table-row-group;",
-			"d:tbc": "display:table-cell;",
-			"d:rb": "display:ruby;",
-			"d:rbb": "display:ruby-base;",
-			"d:rbbg": "display:ruby-base-group;",
-			"d:rbt": "display:ruby-text;",
-			"d:rbtg": "display:ruby-text-group;",
-			"v": "visibility:|;",
-			"v:v": "visibility:visible;",
-			"v:h": "visibility:hidden;",
-			"v:c": "visibility:collapse;",
-			"ov": "overflow:|;",
-			"ov:v": "overflow:visible;",
-			"ov:h": "overflow:hidden;",
-			"ov:s": "overflow:scroll;",
-			"ov:a": "overflow:auto;",
-			"ovx": "overflow-x:|;",
-			"ovx:v": "overflow-x:visible;",
-			"ovx:h": "overflow-x:hidden;",
-			"ovx:s": "overflow-x:scroll;",
-			"ovx:a": "overflow-x:auto;",
-			"ovy": "overflow-y:|;",
-			"ovy:v": "overflow-y:visible;",
-			"ovy:h": "overflow-y:hidden;",
-			"ovy:s": "overflow-y:scroll;",
-			"ovy:a": "overflow-y:auto;",
-			"ovs": "overflow-style:|;",
-			"ovs:a": "overflow-style:auto;",
-			"ovs:s": "overflow-style:scrollbar;",
-			"ovs:p": "overflow-style:panner;",
-			"ovs:m": "overflow-style:move;",
-			"ovs:mq": "overflow-style:marquee;",
-			"zoo": "zoom:1;",
-			"cp": "clip:|;",
-			"cp:a": "clip:auto;",
-			"cp:r": "clip:rect(|);",
-			"bxz": "box-sizing:|;",
-			"bxz:cb": "box-sizing:content-box;",
-			"bxz:bb": "box-sizing:border-box;",
-			"bxsh": "box-shadow:|;",
-			"bxsh:n": "box-shadow:none;",
-			"bxsh:w": "-webkit-box-shadow:0 0 0 #000;",
-			"bxsh:m": "-moz-box-shadow:0 0 0 0 #000;",
-			"m": "margin:|;",
-			"m:a": "margin:auto;",
-			"m:0": "margin:0;",
-			"m:2": "margin:0 0;",
-			"m:3": "margin:0 0 0;",
-			"m:4": "margin:0 0 0 0;",
-			"mt": "margin-top:|;",
-			"mt:a": "margin-top:auto;",
-			"mr": "margin-right:|;",
-			"mr:a": "margin-right:auto;",
-			"mb": "margin-bottom:|;",
-			"mb:a": "margin-bottom:auto;",
-			"ml": "margin-left:|;",
-			"ml:a": "margin-left:auto;",
-			"p": "padding:|;",
-			"p:0": "padding:0;",
-			"p:2": "padding:0 0;",
-			"p:3": "padding:0 0 0;",
-			"p:4": "padding:0 0 0 0;",
-			"pt": "padding-top:|;",
-			"pr": "padding-right:|;",
-			"pb": "padding-bottom:|;",
-			"pl": "padding-left:|;",
-			"w": "width:|;",
-			"w:a": "width:auto;",
-			"h": "height:|;",
-			"h:a": "height:auto;",
-			"maw": "max-width:|;",
-			"maw:n": "max-width:none;",
-			"mah": "max-height:|;",
-			"mah:n": "max-height:none;",
-			"miw": "min-width:|;",
-			"mih": "min-height:|;",
-			"o": "outline:|;",
-			"o:n": "outline:none;",
-			"oo": "outline-offset:|;",
-			"ow": "outline-width:|;",
-			"os": "outline-style:|;",
-			"oc": "outline-color:#000;",
-			"oc:i": "outline-color:invert;",
-			"bd": "border:|;",
-			"bd+": "border:1px solid #000;",
-			"bd:n": "border:none;",
-			"bdbk": "border-break:|;",
-			"bdbk:c": "border-break:close;",
-			"bdcl": "border-collapse:|;",
-			"bdcl:c": "border-collapse:collapse;",
-			"bdcl:s": "border-collapse:separate;",
-			"bdc": "border-color:#000;",
-			"bdi": "border-image:url(|);",
-			"bdi:n": "border-image:none;",
-			"bdi:w": "-webkit-border-image:url(|) 0 0 0 0 stretch stretch;",
-			"bdi:m": "-moz-border-image:url(|) 0 0 0 0 stretch stretch;",
-			"bdti": "border-top-image:url(|);",
-			"bdti:n": "border-top-image:none;",
-			"bdri": "border-right-image:url(|);",
-			"bdri:n": "border-right-image:none;",
-			"bdbi": "border-bottom-image:url(|);",
-			"bdbi:n": "border-bottom-image:none;",
-			"bdli": "border-left-image:url(|);",
-			"bdli:n": "border-left-image:none;",
-			"bdci": "border-corner-image:url(|);",
-			"bdci:n": "border-corner-image:none;",
-			"bdci:c": "border-corner-image:continue;",
-			"bdtli": "border-top-left-image:url(|);",
-			"bdtli:n": "border-top-left-image:none;",
-			"bdtli:c": "border-top-left-image:continue;",
-			"bdtri": "border-top-right-image:url(|);",
-			"bdtri:n": "border-top-right-image:none;",
-			"bdtri:c": "border-top-right-image:continue;",
-			"bdbri": "border-bottom-right-image:url(|);",
-			"bdbri:n": "border-bottom-right-image:none;",
-			"bdbri:c": "border-bottom-right-image:continue;",
-			"bdbli": "border-bottom-left-image:url(|);",
-			"bdbli:n": "border-bottom-left-image:none;",
-			"bdbli:c": "border-bottom-left-image:continue;",
-			"bdf": "border-fit:|;",
-			"bdf:c": "border-fit:clip;",
-			"bdf:r": "border-fit:repeat;",
-			"bdf:sc": "border-fit:scale;",
-			"bdf:st": "border-fit:stretch;",
-			"bdf:ow": "border-fit:overwrite;",
-			"bdf:of": "border-fit:overflow;",
-			"bdf:sp": "border-fit:space;",
-			"bdl": "border-length:|;",
-			"bdl:a": "border-length:auto;",
-			"bdsp": "border-spacing:|;",
-			"bds": "border-style:|;",
-			"bds:n": "border-style:none;",
-			"bds:h": "border-style:hidden;",
-			"bds:dt": "border-style:dotted;",
-			"bds:ds": "border-style:dashed;",
-			"bds:s": "border-style:solid;",
-			"bds:db": "border-style:double;",
-			"bds:dtds": "border-style:dot-dash;",
-			"bds:dtdtds": "border-style:dot-dot-dash;",
-			"bds:w": "border-style:wave;",
-			"bds:g": "border-style:groove;",
-			"bds:r": "border-style:ridge;",
-			"bds:i": "border-style:inset;",
-			"bds:o": "border-style:outset;",
-			"bdw": "border-width:|;",
-			"bdt": "border-top:|;",
-			"bdt+": "border-top:1px solid #000;",
-			"bdt:n": "border-top:none;",
-			"bdtw": "border-top-width:|;",
-			"bdts": "border-top-style:|;",
-			"bdts:n": "border-top-style:none;",
-			"bdtc": "border-top-color:#000;",
-			"bdr": "border-right:|;",
-			"bdr+": "border-right:1px solid #000;",
-			"bdr:n": "border-right:none;",
-			"bdrw": "border-right-width:|;",
-			"bdrs": "border-right-style:|;",
-			"bdrs:n": "border-right-style:none;",
-			"bdrc": "border-right-color:#000;",
-			"bdb": "border-bottom:|;",
-			"bdb+": "border-bottom:1px solid #000;",
-			"bdb:n": "border-bottom:none;",
-			"bdbw": "border-bottom-width:|;",
-			"bdbs": "border-bottom-style:|;",
-			"bdbs:n": "border-bottom-style:none;",
-			"bdbc": "border-bottom-color:#000;",
-			"bdl": "border-left:|;",
-			"bdl+": "border-left:1px solid #000;",
-			"bdl:n": "border-left:none;",
-			"bdlw": "border-left-width:|;",
-			"bdls": "border-left-style:|;",
-			"bdls:n": "border-left-style:none;",
-			"bdlc": "border-left-color:#000;",
-			"bdrs": "border-radius:|;",
-			"bdtrrs": "border-top-right-radius:|;",
-			"bdtlrs": "border-top-left-radius:|;",
-			"bdbrrs": "border-bottom-right-radius:|;",
-			"bdblrs": "border-bottom-left-radius:|;",
-			"bg": "background:|;",
-			"bg+": "background:#FFF url(|) 0 0 no-repeat;",
-			"bg:n": "background:none;",
-			"bg:ie": "filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='|x.png');",
-			"bgc": "background-color:#FFF;",
-			"bgi": "background-image:url(|);",
-			"bgi:n": "background-image:none;",
-			"bgr": "background-repeat:|;",
-			"bgr:n": "background-repeat:no-repeat;",
-			"bgr:x": "background-repeat:repeat-x;",
-			"bgr:y": "background-repeat:repeat-y;",
-			"bga": "background-attachment:|;",
-			"bga:f": "background-attachment:fixed;",
-			"bga:s": "background-attachment:scroll;",
-			"bgp": "background-position:0 0;",
-			"bgpx": "background-position-x:|;",
-			"bgpy": "background-position-y:|;",
-			"bgbk": "background-break:|;",
-			"bgbk:bb": "background-break:bounding-box;",
-			"bgbk:eb": "background-break:each-box;",
-			"bgbk:c": "background-break:continuous;",
-			"bgcp": "background-clip:|;",
-			"bgcp:bb": "background-clip:border-box;",
-			"bgcp:pb": "background-clip:padding-box;",
-			"bgcp:cb": "background-clip:content-box;",
-			"bgcp:nc": "background-clip:no-clip;",
-			"bgo": "background-origin:|;",
-			"bgo:pb": "background-origin:padding-box;",
-			"bgo:bb": "background-origin:border-box;",
-			"bgo:cb": "background-origin:content-box;",
-			"bgz": "background-size:|;",
-			"bgz:a": "background-size:auto;",
-			"bgz:ct": "background-size:contain;",
-			"bgz:cv": "background-size:cover;",
-			"c": "color:#000;",
-			"tbl": "table-layout:|;",
-			"tbl:a": "table-layout:auto;",
-			"tbl:f": "table-layout:fixed;",
-			"cps": "caption-side:|;",
-			"cps:t": "caption-side:top;",
-			"cps:b": "caption-side:bottom;",
-			"ec": "empty-cells:|;",
-			"ec:s": "empty-cells:show;",
-			"ec:h": "empty-cells:hide;",
-			"lis": "list-style:|;",
-			"lis:n": "list-style:none;",
-			"lisp": "list-style-position:|;",
-			"lisp:i": "list-style-position:inside;",
-			"lisp:o": "list-style-position:outside;",
-			"list": "list-style-type:|;",
-			"list:n": "list-style-type:none;",
-			"list:d": "list-style-type:disc;",
-			"list:c": "list-style-type:circle;",
-			"list:s": "list-style-type:square;",
-			"list:dc": "list-style-type:decimal;",
-			"list:dclz": "list-style-type:decimal-leading-zero;",
-			"list:lr": "list-style-type:lower-roman;",
-			"list:ur": "list-style-type:upper-roman;",
-			"lisi": "list-style-image:|;",
-			"lisi:n": "list-style-image:none;",
-			"q": "quotes:|;",
-			"q:n": "quotes:none;",
-			"q:ru": "quotes:'\00AB' '\00BB' '\201E' '\201C';",
-			"q:en": "quotes:'\201C' '\201D' '\2018' '\2019';",
-			"ct": "content:|;",
-			"ct:n": "content:normal;",
-			"ct:oq": "content:open-quote;",
-			"ct:noq": "content:no-open-quote;",
-			"ct:cq": "content:close-quote;",
-			"ct:ncq": "content:no-close-quote;",
-			"ct:a": "content:attr(|);",
-			"ct:c": "content:counter(|);",
-			"ct:cs": "content:counters(|);",
-			"coi": "counter-increment:|;",
-			"cor": "counter-reset:|;",
-			"va": "vertical-align:|;",
-			"va:sup": "vertical-align:super;",
-			"va:t": "vertical-align:top;",
-			"va:tt": "vertical-align:text-top;",
-			"va:m": "vertical-align:middle;",
-			"va:bl": "vertical-align:baseline;",
-			"va:b": "vertical-align:bottom;",
-			"va:tb": "vertical-align:text-bottom;",
-			"va:sub": "vertical-align:sub;",
-			"ta": "text-align:|;",
-			"ta:l": "text-align:left;",
-			"ta:c": "text-align:center;",
-			"ta:r": "text-align:right;",
-			"tal": "text-align-last:|;",
-			"tal:a": "text-align-last:auto;",
-			"tal:l": "text-align-last:left;",
-			"tal:c": "text-align-last:center;",
-			"tal:r": "text-align-last:right;",
-			"td": "text-decoration:|;",
-			"td:n": "text-decoration:none;",
-			"td:u": "text-decoration:underline;",
-			"td:o": "text-decoration:overline;",
-			"td:l": "text-decoration:line-through;",
-			"te": "text-emphasis:|;",
-			"te:n": "text-emphasis:none;",
-			"te:ac": "text-emphasis:accent;",
-			"te:dt": "text-emphasis:dot;",
-			"te:c": "text-emphasis:circle;",
-			"te:ds": "text-emphasis:disc;",
-			"te:b": "text-emphasis:before;",
-			"te:a": "text-emphasis:after;",
-			"th": "text-height:|;",
-			"th:a": "text-height:auto;",
-			"th:f": "text-height:font-size;",
-			"th:t": "text-height:text-size;",
-			"th:m": "text-height:max-size;",
-			"ti": "text-indent:|;",
-			"ti:-": "text-indent:-9999px;",
-			"tj": "text-justify:|;",
-			"tj:a": "text-justify:auto;",
-			"tj:iw": "text-justify:inter-word;",
-			"tj:ii": "text-justify:inter-ideograph;",
-			"tj:ic": "text-justify:inter-cluster;",
-			"tj:d": "text-justify:distribute;",
-			"tj:k": "text-justify:kashida;",
-			"tj:t": "text-justify:tibetan;",
-			"to": "text-outline:|;",
-			"to+": "text-outline:0 0 #000;",
-			"to:n": "text-outline:none;",
-			"tr": "text-replace:|;",
-			"tr:n": "text-replace:none;",
-			"tt": "text-transform:|;",
-			"tt:n": "text-transform:none;",
-			"tt:c": "text-transform:capitalize;",
-			"tt:u": "text-transform:uppercase;",
-			"tt:l": "text-transform:lowercase;",
-			"tw": "text-wrap:|;",
-			"tw:n": "text-wrap:normal;",
-			"tw:no": "text-wrap:none;",
-			"tw:u": "text-wrap:unrestricted;",
-			"tw:s": "text-wrap:suppress;",
-			"tsh": "text-shadow:|;",
-			"tsh+": "text-shadow:0 0 0 #000;",
-			"tsh:n": "text-shadow:none;",
-			"lh": "line-height:|;",
-			"whs": "white-space:|;",
-			"whs:n": "white-space:normal;",
-			"whs:p": "white-space:pre;",
-			"whs:nw": "white-space:nowrap;",
-			"whs:pw": "white-space:pre-wrap;",
-			"whs:pl": "white-space:pre-line;",
-			"whsc": "white-space-collapse:|;",
-			"whsc:n": "white-space-collapse:normal;",
-			"whsc:k": "white-space-collapse:keep-all;",
-			"whsc:l": "white-space-collapse:loose;",
-			"whsc:bs": "white-space-collapse:break-strict;",
-			"whsc:ba": "white-space-collapse:break-all;",
-			"wob": "word-break:|;",
-			"wob:n": "word-break:normal;",
-			"wob:k": "word-break:keep-all;",
-			"wob:l": "word-break:loose;",
-			"wob:bs": "word-break:break-strict;",
-			"wob:ba": "word-break:break-all;",
-			"wos": "word-spacing:|;",
-			"wow": "word-wrap:|;",
-			"wow:nm": "word-wrap:normal;",
-			"wow:n": "word-wrap:none;",
-			"wow:u": "word-wrap:unrestricted;",
-			"wow:s": "word-wrap:suppress;",
-			"lts": "letter-spacing:|;",
-			"f": "font:|;",
-			"f+": "font:1em Arial,sans-serif;",
-			"fw": "font-weight:|;",
-			"fw:n": "font-weight:normal;",
-			"fw:b": "font-weight:bold;",
-			"fw:br": "font-weight:bolder;",
-			"fw:lr": "font-weight:lighter;",
-			"fs": "font-style:|;",
-			"fs:n": "font-style:normal;",
-			"fs:i": "font-style:italic;",
-			"fs:o": "font-style:oblique;",
-			"fv": "font-variant:|;",
-			"fv:n": "font-variant:normal;",
-			"fv:sc": "font-variant:small-caps;",
-			"fz": "font-size:|;",
-			"fza": "font-size-adjust:|;",
-			"fza:n": "font-size-adjust:none;",
-			"ff": "font-family:|;",
-			"ff:s": "font-family:serif;",
-			"ff:ss": "font-family:sans-serif;",
-			"ff:c": "font-family:cursive;",
-			"ff:f": "font-family:fantasy;",
-			"ff:m": "font-family:monospace;",
-			"fef": "font-effect:|;",
-			"fef:n": "font-effect:none;",
-			"fef:eg": "font-effect:engrave;",
-			"fef:eb": "font-effect:emboss;",
-			"fef:o": "font-effect:outline;",
-			"fem": "font-emphasize:|;",
-			"femp": "font-emphasize-position:|;",
-			"femp:b": "font-emphasize-position:before;",
-			"femp:a": "font-emphasize-position:after;",
-			"fems": "font-emphasize-style:|;",
-			"fems:n": "font-emphasize-style:none;",
-			"fems:ac": "font-emphasize-style:accent;",
-			"fems:dt": "font-emphasize-style:dot;",
-			"fems:c": "font-emphasize-style:circle;",
-			"fems:ds": "font-emphasize-style:disc;",
-			"fsm": "font-smooth:|;",
-			"fsm:a": "font-smooth:auto;",
-			"fsm:n": "font-smooth:never;",
-			"fsm:aw": "font-smooth:always;",
-			"fst": "font-stretch:|;",
-			"fst:n": "font-stretch:normal;",
-			"fst:uc": "font-stretch:ultra-condensed;",
-			"fst:ec": "font-stretch:extra-condensed;",
-			"fst:c": "font-stretch:condensed;",
-			"fst:sc": "font-stretch:semi-condensed;",
-			"fst:se": "font-stretch:semi-expanded;",
-			"fst:e": "font-stretch:expanded;",
-			"fst:ee": "font-stretch:extra-expanded;",
-			"fst:ue": "font-stretch:ultra-expanded;",
-			"op": "opacity:|;",
-			"op:ie": "filter:progid:DXImageTransform.Microsoft.Alpha(Opacity=100);",
-			"op:ms": "-ms-filter:'progid:DXImageTransform.Microsoft.Alpha(Opacity=100)';",
-			"rz": "resize:|;",
-			"rz:n": "resize:none;",
-			"rz:b": "resize:both;",
-			"rz:h": "resize:horizontal;",
-			"rz:v": "resize:vertical;",
-			"cur": "cursor:|;",
-			"cur:a": "cursor:auto;",
-			"cur:d": "cursor:default;",
-			"cur:c": "cursor:crosshair;",
-			"cur:ha": "cursor:hand;",
-			"cur:he": "cursor:help;",
-			"cur:m": "cursor:move;",
-			"cur:p": "cursor:pointer;",
-			"cur:t": "cursor:text;",
-			"pgbb": "page-break-before:|;",
-			"pgbb:au": "page-break-before:auto;",
-			"pgbb:al": "page-break-before:always;",
-			"pgbb:l": "page-break-before:left;",
-			"pgbb:r": "page-break-before:right;",
-			"pgbi": "page-break-inside:|;",
-			"pgbi:au": "page-break-inside:auto;",
-			"pgbi:av": "page-break-inside:avoid;",
-			"pgba": "page-break-after:|;",
-			"pgba:au": "page-break-after:auto;",
-			"pgba:al": "page-break-after:always;",
-			"pgba:l": "page-break-after:left;",
-			"pgba:r": "page-break-after:right;",
-			"orp": "orphans:|;",
-			"wid": "widows:|;"
-		}
-	},
-	
-	'html': {
-		'snippets': {
-			'cc:ie6': '<!--[if lte IE 6]>\n\t${child}|\n<![endif]-->',
-			'cc:ie': '<!--[if IE]>\n\t${child}|\n<![endif]-->',
-			'cc:noie': '<!--[if !IE]><!-->\n\t${child}|\n<!--<![endif]-->',
-			'html:4t': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">\n' +
-					'<html lang="${lang}">\n' +
-					'<head>\n' +
-					'	<title></title>\n' +
-					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}">\n' +
-					'</head>\n' +
-					'<body>\n\t${child}|\n</body>\n' +
-					'</html>',
-			
-			'html:4s': '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">\n' +
-					'<html lang="${lang}">\n' +
-					'<head>\n' +
-					'	<title></title>\n' +
-					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}">\n' +
-					'</head>\n' +
-					'<body>\n\t${child}|\n</body>\n' +
-					'</html>',
-			
-			'html:xt': '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">\n' +
-					'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}">\n' +
-					'<head>\n' +
-					'	<title></title>\n' +
-					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}" />\n' +
-					'</head>\n' +
-					'<body>\n\t${child}|\n</body>\n' +
-					'</html>',
-			
-			'html:xs': '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">\n' +
-					'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}">\n' +
-					'<head>\n' +
-					'	<title></title>\n' +
-					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}" />\n' +
-					'</head>\n' +
-					'<body>\n\t${child}|\n</body>\n' +
-					'</html>',
-			
-			'html:xxs': '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">\n' +
-					'<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="${lang}">\n' +
-					'<head>\n' +
-					'	<title></title>\n' +
-					'	<meta http-equiv="Content-Type" content="text/html;charset=${charset}" />\n' +
-					'</head>\n' +
-					'<body>\n\t${child}|\n</body>\n' +
-					'</html>',
-			
-			'html:5': '<!DOCTYPE HTML>\n' +
-					'<html lang="${locale}">\n' +
-					'<head>\n' +
-					'	<title></title>\n' +
-					'	<meta charset="${charset}">\n' +
-					'</head>\n' +
-					'<body>\n\t${child}|\n</body>\n' +
-					'</html>'
-		},
-		
-		'abbreviations': {
-			'a': '<a href=""></a>',
-			'a:link': '<a href="http://|"></a>',
-			'a:mail': '<a href="mailto:|"></a>',
-			'abbr': '<abbr title=""></abbr>',
-			'acronym': '<acronym title=""></acronym>',
-			'base': '<base href="" />',
-			'bdo': '<bdo dir=""></bdo>',
-			'bdo:r': '<bdo dir="rtl"></bdo>',
-			'bdo:l': '<bdo dir="ltr"></bdo>',
-			'link:css': '<link rel="stylesheet" type="text/css" href="|style.css" media="all" />',
-			'link:print': '<link rel="stylesheet" type="text/css" href="|print.css" media="print" />',
-			'link:favicon': '<link rel="shortcut icon" type="image/x-icon" href="|favicon.ico" />',
-			'link:touch': '<link rel="apple-touch-icon" href="|favicon.png" />',
-			'link:rss': '<link rel="alternate" type="application/rss+xml" title="RSS" href="|rss.xml" />',
-			'link:atom': '<link rel="alternate" type="application/atom+xml" title="Atom" href="atom.xml" />',
-			'meta:utf': '<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />',
-			'meta:win': '<meta http-equiv="Content-Type" content="text/html;charset=windows-1251" />',
-			'meta:compat': '<meta http-equiv="X-UA-Compatible" content="IE=7" />',
-			'style': '<style type="text/css"></style>',
-			'script': '<script type="text/javascript"></script>',
-			'script:src': '<script type="text/javascript" src=""></script>',
-			'img': '<img src="" alt="" />',
-			'iframe': '<iframe src="" frameborder="0"></iframe>',
-			'embed': '<embed src="" type="" />',
-			'object': '<object data="" type=""></object>',
-			'param': '<param name="" value="" />',
-			'map': '<map name=""></map>',
-			'area': '<area shape="" coords="" href="" alt="" />',
-			'area:d': '<area shape="default" href="" alt="" />',
-			'area:c': '<area shape="circle" coords="" href="" alt="" />',
-			'area:r': '<area shape="rect" coords="" href="" alt="" />',
-			'area:p': '<area shape="poly" coords="" href="" alt="" />',
-			'link': '<link rel="stylesheet" href="" />',
-			'form': '<form action=""></form>',
-			'form:get': '<form action="" method="get"></form>',
-			'form:post': '<form action="" method="post"></form>',
-			'label': '<label for=""></label>',
-			'input': '<input type="" />',
-			'input:hidden': '<input type="hidden" name="" />',
-			'input:h': '<input type="hidden" name="" />',
-			'input:text': '<input type="text" name="" id="" />',
-			'input:t': '<input type="text" name="" id="" />',
-			'input:search': '<input type="search" name="" id="" />',
-			'input:email': '<input type="email" name="" id="" />',
-			'input:url': '<input type="url" name="" id="" />',
-			'input:password': '<input type="password" name="" id="" />',
-			'input:p': '<input type="password" name="" id="" />',
-			'input:datetime': '<input type="datetime" name="" id="" />',
-			'input:date': '<input type="date" name="" id="" />',
-			'input:datetime-local': '<input type="datetime-local" name="" id="" />',
-			'input:month': '<input type="month" name="" id="" />',
-			'input:week': '<input type="week" name="" id="" />',
-			'input:time': '<input type="time" name="" id="" />',
-			'input:number': '<input type="number" name="" id="" />',
-			'input:color': '<input type="color" name="" id="" />',
-			'input:checkbox': '<input type="checkbox" name="" id="" />',
-			'input:c': '<input type="checkbox" name="" id="" />',
-			'input:radio': '<input type="radio" name="" id="" />',
-			'input:r': '<input type="radio" name="" id="" />',
-			'input:range': '<input type="range" name="" id="" />',
-			'input:file': '<input type="file" name="" id="" />',
-			'input:f': '<input type="file" name="" id="" />',
-			'input:submit': '<input type="submit" value="" />',
-			'input:s': '<input type="submit" value="" />',
-			'input:image': '<input type="image" src="" alt="" />',
-			'input:i': '<input type="image" src="" alt="" />',
-			'input:reset': '<input type="reset" value="" />',
-			'input:button': '<input type="button" value="" />',
-			'input:b': '<input type="button" value="" />',
-			'select': '<select name="" id=""></select>',
-			'option': '<option value=""></option>',
-			'textarea': '<textarea name="" id="" cols="30" rows="10"></textarea>',
-			'menu:context': '<menu type="context"></menu>',
-			'menu:c': '<menu type="context"></menu>',
-			'menu:toolbar': '<menu type="toolbar"></menu>',
-			'menu:t': '<menu type="toolbar"></menu>',
-			'video': '<video src=""></video>',
-			'audio': '<audio src=""></audio>',
-			'html:xml': '<html xmlns="http://www.w3.org/1999/xhtml"></html>',
-			'bq': '<blockquote></blockquote>',
-			'acr': '<acronym></acronym>',
-			'fig': '<figure></figure>',
-			'ifr': '<iframe></iframe>',
-			'emb': '<embed></embed>',
-			'obj': '<object></object>',
-			'src': '<source></source>',
-			'cap': '<caption></caption>',
-			'colg': '<colgroup></colgroup>',
-			'fst': '<fieldset></fieldset>',
-			'btn': '<button></button>',
-			'optg': '<optgroup></optgroup>',
-			'opt': '<option></option>',
-			'tarea': '<textarea></textarea>',
-			'leg': '<legend></legend>',
-			'sect': '<section></section>',
-			'art': '<article></article>',
-			'hdr': '<header></header>',
-			'ftr': '<footer></footer>',
-			'adr': '<address></address>',
-			'dlg': '<dialog></dialog>',
-			'str': '<strong></strong>',
-			'prog': '<progress></progress>',
-			'fset': '<fieldset></fieldset>',
-			'datag': '<datagrid></datagrid>',
-			'datal': '<datalist></datalist>',
-			'kg': '<keygen></keygen>',
-			'out': '<output></output>',
-			'det': '<details></details>',
-			'cmd': '<command></command>',
-			
-			// expandos
-			'ol+': 'ol>li',
-			'ul+': 'ul>li',
-			'dl+': 'dl>dt+dd',
-			'map+': 'map>area',
-			'table+': 'table>tr>td',
-			'colgroup+': 'colgroup>col',
-			'colg+': 'colgroup>col',
-			'tr+': 'tr>td',
-			'select+': 'select>option',
-			'optgroup+': 'optgroup>option',
-			'optg+': 'optgroup>option'
-
-		},
-		
-		'element_types': {
-			'empty': 'area,base,basefont,br,col,frame,hr,img,input,isindex,link,meta,param,embed,keygen,command',
-			'block_level': 'address,applet,blockquote,button,center,dd,del,dir,div,dl,dt,fieldset,form,frameset,hr,iframe,ins,isindex,li,link,map,menu,noframes,noscript,object,ol,p,pre,script,table,tbody,td,tfoot,th,thead,tr,ul,h1,h2,h3,h4,h5,h6',
-			'inline_level': 'a,abbr,acronym,applet,b,basefont,bdo,big,br,button,cite,code,del,dfn,em,font,i,iframe,img,input,ins,kbd,label,map,object,q,s,samp,script,select,small,span,strike,strong,sub,sup,textarea,tt,u,var'
-		}
-	},
-	
-	'xsl': {
-		'extends': 'html', 
-		'abbreviations': {
-			'tm': '<xsl:template match="" mode=""></xsl:template>',
-			'tmatch': 'tm',
-			'tn': '<xsl:template name=""></xsl:template>',
-			'tname': 'tn',
-			'xsl:when': '<xsl:when test=""></xsl:when>',
-			'wh': 'xsl:when',
-			'var': '<xsl:variable name="">|</xsl:variable>',
-			'vare': '<xsl:variable name="" select=""/>',
-			'if': '<xsl:if test=""></xsl:if>',
-			'call': '<xsl:call-template name=""/>',
-			'attr': '<xsl:attribute name=""></xsl:attribute>',
-			'wp': '<xsl:with-param name="" select=""/>',
-			'par': '<xsl:param name="" select=""/>',
-			'val': '<xsl:value-of select=""/>',
-			'co': '<xsl:copy-of select=""/>',
-			'each': '<xsl:for-each select=""></xsl:for-each>',
-			'ap': '<xsl:apply-templates select="" mode=""/>',
-			
-			//expandos
-			'choose+': 'xsl:choose>xsl:when+xsl:otherwise'
-		}
-	}
-};/**
  * Core library that do all Zen Coding magic
  * @author Sergey Chikuyonok (serge.che@gmail.com)
  * @link http://chikuyonok.ru
@@ -727,9 +16,9 @@ var zen_settings = {
 		/** Reference to another abbreviation or tag */
 		TYPE_REFERENCE = 'zen-reference',
 		
-		content_placeholder = '{%::zen-content::%}',
-		caret_placeholder = '|',
-		newline = '\n';
+		caret_placeholder = '{%::zen-caret::%}',
+		newline = '\n',
+		default_tag = 'div';
 		
 	var default_profile = {
 		tag_case: 'lower',
@@ -744,11 +33,20 @@ var zen_settings = {
 		// indent tags
 		indent: true,
 		
+		// how many inline elements should be to force line break 
+		// (set to 0 to disable)
+		inline_break: 3,
+		
 		// use self-closing style for writing empty elements, e.g. <br /> or <br>
 		self_closing_tag: 'xhtml'
 	};
 	
 	var profiles = {};
+	
+	/** List of registered filters */
+	var filters = {},
+		/** Filters that will be applied for unknown syntax */
+		basic_filters = 'html';
 	
 	/**
 	 * Проверяет, является ли символ допустимым в аббревиатуре
@@ -757,7 +55,7 @@ var zen_settings = {
 	 */
 	function isAllowedChar(ch) {
 		var char_code = ch.charCodeAt(0),
-			special_chars = '#.>+*:$-_!@[]';
+			special_chars = '#.>+*:$-_!@[]()|';
 		
 		return (char_code > 64 && char_code < 91)       // uppercase letter
 				|| (char_code > 96 && char_code < 123)  // lowercase letter
@@ -781,20 +79,16 @@ var zen_settings = {
 	 * @return {Array}
 	 */
 	function splitByLines(text, remove_empty) {
-		
 		// IE fails to split string by regexp, 
 		// need to normalize newlines first
 		// Also, Mozilla's Rhiho JS engine has a wierd newline bug
 		var nl = getNewline();
-		var lines = text
+		var lines = (text || '')
 			.replace(/\r\n/g, '\n')
 			.replace(/\n\r/g, '\n')
 			.replace(/\n/g, nl)
 			.split(nl);
 		
-//		var nl = getNewline(), 
-//			lines = text.split(new RegExp('\\r?\\n|\\n\\r|\\r|' + nl));
-			
 		if (remove_empty) {
 			for (var i = lines.length; i >= 0; i--) {
 				if (!trim(lines[i]))
@@ -838,18 +132,30 @@ var zen_settings = {
 	}
 	
 	/**
+	 * Repeats string <code>how_many</code> times
+	 * @param {String} str
+	 * @param {Number} how_many
+	 * @return {String}
+	 */
+	function repeatString(str, how_many) {
+		var result = '';
+		for (var i = 0; i < how_many; i++) 
+			result += str;
+			
+		return result;
+	}
+	
+	/**
 	 * Indents text with padding
 	 * @param {String} text Text to indent
 	 * @param {String|Number} pad Padding size (number) or padding itself (string)
 	 * @return {String}
 	 */
 	function padString(text, pad) {
-		var pad_str = '', result = '';
-		if (typeof(pad) == 'number')
-			for (var i = 0; i < pad; i++) 
-				pad_str += zen_settings.variables.indentation;
-		else
-			pad_str = pad;
+		var pad_str = (typeof(pad) == 'number') 
+				? repeatString(getIndentation(), pad) 
+				: pad, 
+			result = '';
 		
 		var lines = splitByLines(text),
 			nl = getNewline();
@@ -860,6 +166,22 @@ var zen_settings = {
 			
 		return result;
 	}
+	
+	/**
+	 * Class inheritance method
+	 * @param {Function} derived Derived class
+	 * @param {Function} from Base class
+	 */
+	function inherit(derived, from) {
+		var Inheritance = function(){};
+	
+		Inheritance.prototype = from.prototype;
+	
+		derived.prototype = new Inheritance();
+		derived.prototype.constructor = derived;
+		derived.baseConstructor = from;
+		derived.superClass = from.prototype;
+	};
 	
 	/**
 	 * Check if passed abbreviation is snippet
@@ -932,6 +254,7 @@ var zen_settings = {
 		this._res = zen_settings[type];
 		this._content = '';
 		this.repeat_by_lines = false;
+		this.parent = null;
 		
 		// add default attributes
 		if (this._abbr && this._abbr.value.attributes) {
@@ -950,6 +273,7 @@ var zen_settings = {
 		 * @param {Tag} tag
 		 */
 		addChild: function(tag) {
+			tag.parent = this;
 			this.children.push(tag);
 		},
 		
@@ -959,6 +283,10 @@ var zen_settings = {
 		 * @param {String} value Attribute's value
 		 */
 		addAttribute: function(name, value) {
+			// the only place in Tag where pipe (caret) character may exist
+			// is the attribute: escape it with internal placeholder
+			value = replaceUnescapedSymbol(value, '|', caret_placeholder);
+			
 			var a;
 			if (name in this._attr_hash) {
 				// attribute already exists, decide what to do
@@ -974,31 +302,6 @@ var zen_settings = {
 				this._attr_hash[name] = a
 				this.attributes.push(a);
 			}
-			
-		},
-		
-		/**
-		 * Test if current tag is empty
-		 * @return {Boolean}
-		 */
-		isEmpty: function() {
-			return (this._abbr && this._abbr.value.is_empty) || (this.name in getElementsCollection(this._res, 'empty'));
-		},
-		
-		/**
-		 * Test if current tag is inline-level (like &lt;strong&gt;, &lt;img&gt;)
-		 * @return {Boolean}
-		 */
-		isInline: function() {
-			return (this.name in getElementsCollection(this._res, 'inline_level'));
-		},
-		
-		/**
-		 * Проверяет, является ли текущий элемент блочным
-		 * @return {Boolean}
-		 */
-		isBlock: function() {
-			return (this.name in getElementsCollection(this._res, 'block_level'));
 		},
 		
 		/**
@@ -1007,23 +310,6 @@ var zen_settings = {
 		 */
 		hasTagsInContent: function() {
 			return this.getContent() && re_tag.test(this.getContent());
-		},
-		
-		/**
-		 * Test if current tag contains block-level children
-		 * @return {Boolean}
-		 */
-		hasBlockChildren: function() {
-			if (this.hasTagsInContent() && this.isBlock()) {
-				return true;
-			}
-			
-			for (var i = 0; i < this.children.length; i++) {
-				if (this.children[i].isBlock())
-					return true;
-			}
-			
-			return false;
 		},
 		
 		/**
@@ -1058,135 +344,9 @@ var zen_settings = {
 			}
 			
 			return deepest_child;
-		},
-		
-		/**
-		 * Transforms and formats tag into string using profile
-		 * @param {String} profile Profile name
-		 * @return {String}
-		 * TODO Function is too large, need refactoring
-		 */
-		toString: function(profile_name) {
-			
-			var result = [], 
-				profile = (profile_name in profiles) ? profiles[profile_name] : profiles['plain'],
-				attrs = '', 
-				content = '', 
-				start_tag = '', 
-				end_tag = '',
-				cursor = profile.place_cursor ? '|' : '',
-				self_closing = '',
-				attr_quote = profile.attr_quotes == 'single' ? "'" : '"',
-				attr_name,
-				
-				is_empty = (this.isEmpty() && !this.children.length);
-
-			if (profile.self_closing_tag == 'xhtml')
-				self_closing = ' /';
-			else if (profile.self_closing_tag === true)
-				self_closing = '/';
-				
-			function allowNewline(tag) {
-				return (profile.tag_nl === true || (profile.tag_nl == 'decide' && tag.isBlock()))
-			}
-				
-			// make attribute string
-			for (var i = 0; i < this.attributes.length; i++) {
-				var a = this.attributes[i];
-				attr_name = (profile.attr_case == 'upper') ? a.name.toUpperCase() : a.name.toLowerCase();
-				attrs += ' ' + attr_name + '=' + attr_quote + (a.value || cursor) + attr_quote;
-			}
-			
-			var deepest_child = this.findDeepestChild();
-			
-			// output children
-			if (!is_empty) {
-				if (deepest_child && this.repeat_by_lines)
-					deepest_child.setContent(content_placeholder);
-				
-				for (var j = 0; j < this.children.length; j++) {
-//					
-					content += this.children[j].toString(profile_name);
-					if (
-						(j != this.children.length - 1) &&
-						( allowNewline(this.children[j]) || allowNewline(this.children[j + 1]) )
-					)
-						content += getNewline();
-				}
-			}
-			
-			// define opening and closing tags
-			if (this.name) {
-				var tag_name = (profile.tag_case == 'upper') ? this.name.toUpperCase() : this.name.toLowerCase();
-				if (is_empty) {
-					start_tag = '<' + tag_name + attrs + self_closing + '>';
-				} else {
-					start_tag = '<' + tag_name + attrs + '>';
-					end_tag = '</' + tag_name + '>';
-				}
-			}
-			
-			// formatting output
-			if (profile.tag_nl !== false) {
-				if (
-					this.name && 
-					(
-						profile.tag_nl === true || 
-						this.hasBlockChildren() 
-					)
-				) {
-					if (end_tag) { // non-empty tag: add indentation
-						start_tag += getNewline() + zen_settings.variables.indentation;
-						end_tag = getNewline() + end_tag;
-					} else { // empty tag
-						
-					}
-						
-				}
-				
-				if (this.name) {
-					if (content)
-						content = padString(content, profile.indent ? 1 : 0);
-					else if (!is_empty)
-						start_tag += cursor;
-				}
-					
-			}
-			
-			// repeat tag by lines count
-			var cur_content = '';
-			if (this.repeat_by_lines) {
-				var lines = splitByLines( trim(this.getContent()) , true);
-				for (var j = 0; j < lines.length; j++) {
-					cur_content = deepest_child ? '' : content_placeholder;
-					if (content && !deepest_child)
-						cur_content += getNewline();
-						
-					var elem_str = start_tag.replace(/\$/g, j + 1) + cur_content + content + end_tag;
-					result.push(elem_str.replace(content_placeholder, trim(lines[j])));
-				}
-			}
-			
-			// repeat tag output
-			if (!result.length) {
-				if (this.getContent()) {
-					var pad = (profile.tag_nl === true || (this.hasTagsInContent() && this.isBlock())) ? 1 : 0;
-					content = padString(this.getContent(), pad) + content;
-				}
-				
-				for (var i = 0; i < this.count; i++) 
-					result.push(start_tag.replace(/\$/g, i + 1) + content + end_tag);
-			}
-			
-			var glue = '';
-			if (allowNewline(this))
-				glue = getNewline();
-				
-			return result.join(glue);
 		}
 	};
 	
-	// TODO inherit from Tag
 	function Snippet(name, count, type) {
 		/** @type {String} */
 		this.name = name;
@@ -1194,122 +354,12 @@ var zen_settings = {
 		this.children = [];
 		this._content = '';
 		this.repeat_by_lines = false;
-		this.attributes = {'id': '|', 'class': '|'};
-		this.value = getSnippet(type, name);
+		this.attributes = {'id': caret_placeholder, 'class': caret_placeholder};
+		this.value = replaceUnescapedSymbol(getSnippet(type, name), '|', caret_placeholder);
+		this.parent = null;
 	}
 	
-	Snippet.prototype = {
-		/**
-		 * Adds new child
-		 * @param {Tag} tag
-		 */
-		addChild: function(tag) {
-			this.children.push(tag);
-		},
-		
-		addAttribute: function(name, value){
-			this.attributes[name] = value;
-		},
-		
-		isBlock: function() {
-			return true; 
-		},
-		
-		/**
-		 * Set textual content for snippet
-		 * @param {String} str Tag's content
-		 */
-		setContent: function(str) {
-			this._content = str;
-		},
-		
-		/**
-		 * Returns snippet's textual content
-		 * @return {String}
-		 */
-		getContent: function() {
-			return this._content;
-		},
-		
-		/**
-		 * Search for deepest and latest child of current element
-		 * @return {Tag|null} Returns null if there's no children
-		 */
-		findDeepestChild: function() {
-			if (!this.children.length)
-				return null;
-				
-			var deepest_child = this;
-			while (true) {
-				deepest_child = deepest_child.children[ deepest_child.children.length - 1 ];
-				if (!deepest_child.children.length)
-					break;
-			}
-			
-			return deepest_child;
-		},
-		
-		toString: function(profile_name) {
-			var content = '', 
-				profile = (profile_name in profiles) ? profiles[profile_name] : profiles['plain'],
-				result = [],
-				data = this.value,
-				begin = '',
-				end = '',
-				child_padding = '',
-				child_token = '${child}';
-			
-			if (data) {
-				if (profile.tag_nl !== false) {
-					var nl = getNewline();
-					data = data.replace(/\n/g, nl);
-					// figuring out indentation for children
-					var lines = data.split(nl), m;
-					for (var j = 0; j < lines.length; j++) {
-						if (lines[j].indexOf(child_token) != -1) {
-							child_padding =  (m = lines[j].match(/(^\s+)/)) ? m[1] : '';
-							break;
-						}
-					}
-				}
-				
-				var parts = data.split(child_token);
-				begin = parts[0] || '';
-				end = parts[1] || '';
-			}
-			
-			for (var i = 0; i < this.children.length; i++) {
-				content += this.children[i].toString(profile_name);
-				if (
-					i != this.children.length - 1 &&
-					(
-						profile.tag_nl === true || 
-						(profile.tag_nl == 'decide' && this.children[i].isBlock())
-					)
-				)
-					content += getNewline();
-			}
-			
-			if (child_padding)
-				content = padString(content, child_padding);
-			
-			
-			// substitute attributes
-			begin = replaceVariables(begin, this.attributes);
-			end = replaceVariables(end, this.attributes);
-				
-			if (this.getContent()) {
-				content = padString(this.getContent(), 1) + content;
-			}
-			
-			// output tag
-			for (var i = 0; i < this.count; i++) 
-				result.push(begin + content + end);
-//				result.push(begin.replace(/\$(?!\{)/g, i + 1) + content + end);
-			
-			return result.join((profile.tag_nl !== false) ? getNewline() : '');
-		}
-	}
+	inherit(Snippet, Tag);
 	
 	/**
 	 * Returns abbreviation value from data set
@@ -1332,32 +382,72 @@ var zen_settings = {
 	}
 	
 	/**
-	 * Returns resurce value from data set with respect of inheritance
-	 * @param {String} type Resource type (html, css, ...)
-	 * @param {String} abbr Abbreviation name
-	 * @param {String} res_name Resource name ('snippets' or 'abbreviation')
-	 * @return {Object|null}
+	 * Returns variable value
+	 * @return {String}
 	 */
-	function getSettingsResource(type, abbr, res_name) {
-		var resource = zen_settings[type];
+	function getVariable(name) {
+		return zen_settings.variables[name];
+	}
+	
+	/**
+	 * Returns indentation string
+	 * @return {String}
+	 */
+	function getIndentation() {
+		return getVariable('indentation');
+	}
+	
+	/**
+	 * Creates resource inheritance chain for lookups
+	 * @param {String} syntax Syntax name
+	 * @param {String} name Resource name
+	 * @return {Array}
+	 */
+	function createResourceChain(syntax, name) {
+		var resource = zen_settings[syntax],
+			result = [];
 		
 		if (resource) {
-			if (res_name in resource && abbr in resource[res_name])
-				return resource[res_name][abbr];
-			else if ('extends' in resource) {
-				// find abbreviation in ancestors
+			if (name in resource)
+				result.push(resource[name]);
+			if ('extends' in resource) {
+				// find resource in ancestors
 				for (var i = 0; i < resource['extends'].length; i++) {
 					var type = resource['extends'][i];
-					if (
-						zen_settings[type] && 
-						zen_settings[type][res_name] && 
-						zen_settings[type][res_name][abbr]
-					)
-						return zen_settings[type][res_name][abbr];
+					if (zen_settings[type] && zen_settings[type][name])
+						result.push(zen_settings[type][name]);
 				}
 			}
 		}
 		
+		return result;
+	}
+	
+	/**
+	 * Get resource collection from settings file for specified syntax. 
+	 * It follows inheritance chain if resource wasn't directly found in
+	 * syntax settings
+	 * @param {String} syntax Syntax name
+	 * @param {String} name Resource name
+	 */
+	function getResource(syntax, name) {
+		var chain = createResourceChain(syntax, name);
+		return chain[0];
+	}
+	
+	/**
+	 * Returns resurce value from data set with respect of inheritance
+	 * @param {String} syntax Resource syntax (html, css, ...)
+	 * @param {String} abbr Abbreviation name
+	 * @param {String} name Resource name ('snippets' or 'abbreviation')
+	 * @return {Object|null}
+	 */
+	function getSettingsResource(syntax, abbr, name) {
+		var chain = createResourceChain(syntax, name);
+		for (var i = 0, il = chain.length; i < il; i++) {
+			if (abbr in chain[i])
+				return chain[i][abbr];
+		}
 		
 		return null;
 	}
@@ -1492,6 +582,488 @@ var zen_settings = {
 		return result;
 	}
 	
+	/**
+	 * Creates group element
+	 * @param {String} expr Part of abbreviation that belongs to group item
+	 * @param {abbrGroup} [parent] Parent group item element
+	 */
+	function abbrGroup(parent) {
+		return {
+			expr: '',
+			parent: parent || null,
+			children: [],
+			addChild: function() {
+				var child = abbrGroup(this);
+				this.children.push(child);
+				return child;
+			},
+			cleanUp: function() {
+				for (var i = this.children.length - 1; i >= 0; i--) {
+					var expr = this.children[i].expr;
+					if (!expr)
+						this.children.splice(i, 1);
+					else {
+						// remove operators at the and of expression
+//						this.children[i].expr = expr.replace(/[\+>]+$/, '');
+						this.children[i].cleanUp();
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Split abbreviation by groups
+	 * @param {String} abbr
+	 * @return {abbrGroup()}
+	 */
+	function splitByGroups(abbr) {
+		var root = abbrGroup(),
+			last_parent = root,
+			cur_item = root.addChild(),
+			stack = [],
+			i = 0,
+			il = abbr.length;
+		
+		while (i < il) {
+			var ch = abbr.charAt(i);
+			switch(ch) {
+				case '(':
+					// found new group
+					var operator = i ? abbr.charAt(i - 1) : '';
+					if (operator == '>') {
+						stack.push(cur_item);
+						last_parent = cur_item;
+					} else {
+						stack.push(last_parent);
+					}
+					cur_item = null;
+					break;
+				case ')':
+					last_parent = stack.pop();
+					cur_item = null;
+					var next_char = (i < il - 1) ? abbr.charAt(i + 1) : '';
+					if (next_char == '+' || next_char == '>') 
+						// next char is group operator, skip it
+						i++;
+					break;
+				default:
+					if (ch == '+' || ch == '>') {
+						// skip operator if it's followed by parenthesis
+						var next_char = (i + 1 < il) ? abbr.charAt(i + 1) : '';
+						if (next_char == '(') break;
+					}
+					if (!cur_item)
+						cur_item = last_parent.addChild();
+					cur_item.expr += ch;
+			}
+			
+			i++;
+		}
+		
+		root.cleanUp();
+		return root;
+	}
+	
+	/**
+	 * @class
+	 * Creates simplified tag from Zen Coding tag
+	 * @param {Tag} tag
+	 */
+	function ZenNode(tag) {
+		
+		this.type = (tag instanceof Snippet) ? 'snippet' : 'tag';
+		this.name = tag.name;
+		this.attributes = tag.attributes;
+		this.children = [];
+		
+		/** @type {Tag} Source element from which current tag was created */
+		this.source = tag;
+		
+		// relations
+		/** @type {ZenNode} */
+		this.parent = null;
+		/** @type {ZenNode} */
+		this.nextSibling = null;
+		/** @type {ZenNode} */
+		this.previousSibling = null;
+		
+		// output params
+		this.start = '';
+		this.end = '';
+		this.content = '';
+		this.padding = '';
+	}
+	
+	ZenNode.prototype = {
+		/**
+		 * @type {ZenNode} tag
+		 */
+		addChild: function(tag) {
+			tag.parent = this;
+			var last_child = this.children[this.children.length - 1];
+			if (last_child) {
+				tag.previousSibling = last_child;
+				last_child.nextSibling = tag;
+			}
+			
+			this.children.push(tag);
+		},
+		
+		/**
+		 * Get attribute's value.
+		 * @param {String} name
+		 * @return {String|null} Returns <code>null</code> if attribute wasn't found
+		 */
+		getAttribute: function(name) {
+			name = name.toLowerCase();
+			for (var i = 0, il = this.attributes.length; i < il; i++) {
+				if (this.attributes[i].name.toLowerCase() == name)
+					return this.attributes[i].value;
+			}
+			
+			return null;
+		},
+		
+		/**
+		 * Test if current tag is unary (no closing tag)
+		 * @return {Boolean}
+		 */
+		isUnary: function() {
+			if (this.type == 'snippet')
+				return false;
+				
+			return (this.source._abbr && this.source._abbr.value.is_empty) || (this.name in getElementsCollection(this.source._res, 'empty'));
+		},
+		
+		/**
+		 * Test if current tag is inline-level (like &lt;strong&gt;, &lt;img&gt;)
+		 * @return {Boolean}
+		 */
+		isInline: function() {
+			return (this.name in getElementsCollection(this.source._res, 'inline_level'));
+		},
+		
+		/**
+		 * Test if current element is block-level
+		 * @return {Boolean}
+		 */
+		isBlock: function() {
+			return this.type == 'snippet' || !this.isInline();
+		},
+		
+		/**
+		 * This function tests if current tags' content contains xHTML tags. 
+		 * This function is mostly used for output formatting
+		 */
+		hasTagsInContent: function() {
+			return this.content && re_tag.test(this.content);
+		},
+		
+		/**
+		 * Check if tag has child elements
+		 * @return {Boolean}
+		 */
+		hasChildren: function() {
+			return !!this.children.length;
+		},
+		
+		/**
+		 * Test if current tag contains block-level children
+		 * @return {Boolean}
+		 */
+		hasBlockChildren: function() {
+			if (this.hasTagsInContent() && this.isBlock()) {
+				return true;
+			}
+			
+			for (var i = 0; i < this.children.length; i++) {
+				if (this.children[i].isBlock())
+					return true;
+			}
+			
+			return false;
+		},
+		
+		/**
+		 * Search for deepest and latest child of current element
+		 * @return {ZenNode|null} Returns <code>null</code> if there's no children
+		 */
+		findDeepestChild: function() {
+			if (!this.children.length)
+				return null;
+				
+			var deepest_child = this;
+			while (true) {
+				deepest_child = deepest_child.children[ deepest_child.children.length - 1 ];
+				if (!deepest_child.children.length)
+					break;
+			}
+			
+			return deepest_child;
+		},
+		
+		/**
+		 * @return {String}
+		 */
+		toString: function() {
+			var content = '';
+			for (var i = 0, il = this.children.length; i < il; i++) {
+				content += this.children[i].toString();
+			}
+			
+			return this.start + this.content + content + this.end;
+		}
+	}
+	
+	/**
+	 * Roll outs basic Zen Coding tree into simplified, DOM-like tree.
+	 * The simplified tree, for example, represents each multiplied element 
+	 * as a separate element sets with its own content, if exists.
+	 * 
+	 * The simplified tree element contains some meta info (tag name, attributes, 
+	 * etc.) as well as output strings, which are exactly what will be outputted
+	 * after expanding abbreviation. This tree is used for <i>filtering</i>:
+	 * you can apply filters that will alter output strings to get desired look
+	 * of expanded abbreviation.
+	 * 
+	 * @param {Tag} tree
+	 * @param {ZenNode} [parent]
+	 */
+	function rolloutTree(tree, parent) {
+		parent = parent || new ZenNode(tree);
+		var how_many = 1,
+			tag_content = '';
+		
+		for (var i = 0, il = tree.children.length; i < il; i++) {
+			/** @type {Tag} */
+			var child = tree.children[i];
+			how_many = child.count;
+			
+			if (child.repeat_by_lines) {
+				// it's a repeating element
+				tag_content = splitByLines(child.getContent(), true);
+				how_many = Math.max(tag_content.length, 1);
+			} else {
+				tag_content = child.getContent();
+			}
+			
+			for (var j = 0; j < how_many; j++) {
+				var tag = new ZenNode(child);
+				parent.addChild(tag);
+				
+				if (child.children.length)
+					rolloutTree(child, tag);
+					
+				var add_point = tag.findDeepestChild() || tag;
+				if (tag_content) {
+					add_point.content = (typeof(tag_content) == 'string') 
+						? tag_content 
+						: (tag_content[j] || '');
+				}
+			}
+		}
+		
+		return parent;
+	}
+	
+	/**
+	 * Runs filters on tree
+	 * @param {ZenNode} tree
+	 * @param {String|Object} profile
+	 * @param {String[]|String} filter_list
+	 * @return {ZenNode}
+	 */
+	function runFilters(tree, profile, filter_list) {
+		if (typeof(profile) == 'string' && profile in profiles)
+			profile = profiles[profile];
+		
+		if (!profile)
+			profile = profiles['plain'];
+			
+		if (typeof(filter_list) == 'string')
+			filter_list = filter_list.split(/[\|,]/g);
+			
+		for (var i = 0, il = filter_list.length; i < il; i++) {
+			var name = trim(filter_list[i].toLowerCase());
+			if (name && name in filters) {
+				tree = filters[name](tree, profile);
+			}
+		}
+		
+		return tree;
+	}
+	
+	/**
+	 * Transforms abbreviation into a primary internal tree. This tree should'n 
+	 * be used ouside of this scope
+	 * @param {String} abbr Abbreviation
+	 * @param {String} [type] Document type (xsl, html, etc.)
+	 * @return {Tag}
+	 */
+	function abbrToPrimaryTree(abbr, type) {
+		type = type || 'html';
+		var root = new Tag('', 1, type),
+			parent = root,
+			last = null,
+			multiply_elem = null,
+			res = zen_settings[type],
+			re = /([\+>])?([a-z@\!\#\.][a-z0-9:\-]*)((?:(?:[#\.][\w\-\$]+)|(?:\[[^\]]+\]))+)?(\*(\d*))?(\+$)?/ig;
+//				re = /([\+>])?([a-z@\!][a-z0-9:\-]*)(#[\w\-\$]+)?((?:\.[\w\-\$]+)*)(\*(\d*))?(\+$)?/ig;
+		
+		if (!abbr)
+			return null;
+		
+		// replace expandos
+		abbr = abbr.replace(/([a-z][\w\:\-]*)\+$/i, function(str){
+			var a = getAbbreviation(type, str);
+			return a ? a.value : str;
+		});
+		
+		abbr = abbr.replace(re, function(str, operator, tag_name, attrs, has_multiplier, multiplier, has_expando){
+			var multiply_by_lines = (has_multiplier && !multiplier);
+			multiplier = multiplier ? parseInt(multiplier) : 1;
+			
+			var tag_ch = tag_name.charAt(0);
+			if (tag_ch == '#' || tag_ch == '.') {
+				attrs = tag_name + (attrs || '');
+				tag_name = default_tag;
+			}
+			
+			if (has_expando)
+				tag_name += '+';
+				
+			var current = isShippet(tag_name, type) ? new Snippet(tag_name, multiplier, type) : new Tag(tag_name, multiplier, type);
+			if (attrs) {
+				attrs = parseAttributes(attrs);
+				for (var i = 0, il = attrs.length; i < il; i++) {
+					current.addAttribute(attrs[i].name, attrs[i].value);
+				}
+			}
+			
+			// dive into tree
+			if (operator == '>' && last)
+				parent = last;
+				
+			parent.addChild(current);
+			
+			last = current;
+			
+			if (multiply_by_lines)
+				multiply_elem = current;
+			
+			return '';
+		});
+		
+		root.last = last;
+		root.multiply_elem = multiply_elem;
+		
+		// empty 'abbr' string means that abbreviation was successfully expanded,
+		// if not — abbreviation wasn't valid 
+		return (!abbr) ? root : null;	
+	}
+	
+	/**
+	 * Expand single group item 
+	 * @param {abbrGroup} group
+	 * @param {String} type
+	 * @param {Tag} parent
+	 */
+	function expandGroup(group, type, parent) {
+		var tree = abbrToPrimaryTree(group.expr, type),
+			/** @type {Tag} */
+			last_item = null;
+			
+		if (tree) {
+			for (var i = 0, il = tree.children.length; i < il; i++) {
+				last_item = tree.children[i];
+				parent.addChild(last_item);
+			}
+		} else {
+			throw new Error('InvalidGroup');
+		}
+		
+		// set repeating element to the topmost node
+		var root = parent;
+		while (root.parent)
+			root = root.parent;
+		
+		root.last = tree.last;
+		if (tree.multiply_elem)
+			root.multiply_elem = tree.multiply_elem;
+			
+		// process child groups
+		if (group.children.length) {
+			var add_point = last_item.findDeepestChild() || last_item;
+			for (var j = 0, jl = group.children.length; j < jl; j++) {
+				expandGroup(group.children[j], type, add_point);
+			}
+		}
+	}
+	
+	/**
+	 * Pad string with zeroes
+	 * @param {String} str
+	 * @param {Number} pad
+	 */
+	function zeroPadString(str, pad) {
+		var padding = '', 
+			il = str.length;
+			
+		while (pad > il++) padding += '0';
+		return padding + str; 
+	}
+	
+	/**
+	 * Replaces unescaped symbols in <code>str</code>. For example, the '$' symbol
+	 * will be replaced in 'item$count', but not in 'item\$count'.
+	 * @param {String} str Original string
+	 * @param {String} symbol Symbol to replace
+	 * @param {String|Function} replace Symbol replacement
+	 * @return {String}
+	 */
+	function replaceUnescapedSymbol(str, symbol, replace) {
+		var i = 0,
+			il = str.length,
+			sl = symbol.length,
+			match_count = 0;
+			
+		while (i < il) {
+			if (str.charAt(i) == '\\') {
+				// escaped symbol, skip next character
+				i += sl + 1;
+			} else if (str.substr(i, sl) == symbol) {
+				// have match
+				var cur_sl = sl;
+				match_count++;
+				var new_value = replace;
+				if (typeof(replace) !== 'string') {
+					var replace_data = replace(str, symbol, i, match_count);
+					if (replace_data) {
+						cur_sl = replace_data[0].length;
+						new_value = replace_data[1];
+					} else {
+						new_value = false;
+					}
+				}
+				
+				if (new_value === false) { // skip replacement
+					i++;
+					continue;
+				}
+				
+				str = str.substring(0, i) + new_value + str.substring(i + cur_sl);
+				// adjust indexes
+				il = str.length;
+				i += new_value.length;
+			} else {
+				i++;
+			}
+		}
+		
+		return str;
+	}
+	
 	// create default profiles
 	setupProfile('xhtml');
 	setupProfile('html', {self_closing_tag: false});
@@ -1500,9 +1072,52 @@ var zen_settings = {
 	
 	
 	return {
+		/** Hash of all available actions */
+		actions: {},
+		
+		/**
+		 * Adds new Zen Coding action. This action will be available in
+		 * <code>zen_settings.actions</code> object.
+		 * @param {String} name Action's name
+		 * @param {Function} fn Action itself. The first argument should be
+		 * <code>zen_editor</code> instance.
+		 */
+		registerAction: function(name, fn) {
+			this.actions[name] = fn;
+		},
+		
+		/**
+		 * Runs Zen Coding action. For list of available actions and their
+		 * arguments see <code>zen_actions.js</code> file.
+		 * @param {String} name Action name 
+		 * @param {Array} args Additional arguments. It may be array of arguments
+		 * or inline arguments. The first argument should be <code>zen_editor</code> instance
+		 * @example
+		 * zen_coding.runActions('expand_abbreviation', zen_editor);  
+		 * zen_coding.runActions('wrap_with_abbreviation', [zen_editor, 'div']);  
+		 */
+		runAction: function(name, args) {
+			if (!(args instanceof Array))
+				args = Array.prototype.slice.call(arguments, 1);
+				
+			try {
+				if (name in this.actions)
+					return this.actions[name].apply(this, args);
+			} catch(e){
+				return false; 
+			}
+		},
+		
 		expandAbbreviation: function(abbr, type, profile) {
-			var tree = this.parseIntoTree(abbr, type || 'html');
-			return replaceVariables(tree ? tree.toString(profile) : '');
+			type = type || 'html';
+			var tree_root = this.parseIntoTree(abbr, type);
+			if (tree_root) {
+				var tree = rolloutTree(tree_root);
+				this.applyFilters(tree, type, profile, tree_root.filters);
+				return replaceVariables(tree.toString());
+			}
+			
+			return '';
 		},
 		
 		/**
@@ -1512,21 +1127,32 @@ var zen_settings = {
 		 */
 		extractAbbreviation: function(str) {
 			var cur_offset = str.length,
-				start_index = -1;
+				start_index = -1,
+				brace_count = 0;
 			
 			while (true) {
 				cur_offset--;
 				if (cur_offset < 0) {
-					// дошли до начала строки
+					// moved to the beginning of the line
 					start_index = 0;
 					break;
 				}
 				
 				var ch = str.charAt(cur_offset);
 				
-				if (!isAllowedChar(ch) || (ch == '>' && isEndsWithTag(str.substring(0, cur_offset + 1)))) {
-					start_index = cur_offset + 1;
-					break;
+				if (ch == ']')
+					brace_count++;
+				else if (ch == '[')
+					brace_count--;
+				else {
+					if (brace_count) 
+						// respect all characters inside attribute sets
+						continue;
+					else if (!isAllowedChar(ch) || (ch == '>' && isEndsWithTag(str.substring(0, cur_offset + 1)))) {
+						// found stop symbol
+						start_index = cur_offset + 1;
+						break;
+					}
 				}
 			}
 			
@@ -1545,58 +1171,29 @@ var zen_settings = {
 		 */
 		parseIntoTree: function(abbr, type) {
 			type = type || 'html';
-			var root = new Tag('', 1, type),
-				parent = root,
-				last = null,
-				multiply_elem = null,
-				res = zen_settings[type],
-				re = /([\+>])?([a-z@\!][a-z0-9:\-]*)((?:(?:[#\.][\w\-\$]+)|(?:\[[^\]]+\]))+)?(\*(\d*))?(\+$)?/ig;
-//				re = /([\+>])?([a-z@\!][a-z0-9:\-]*)(#[\w\-\$]+)?((?:\.[\w\-\$]+)*)(\*(\d*))?(\+$)?/ig;
-			
-			if (!abbr)
-				return null;
-			
-			// replace expandos
-			abbr = abbr.replace(/([a-z][\w\:\-]*)\+$/i, function(str){
-				var a = getAbbreviation(type, str);
-				return a ? a.value : str;
-			});
-			
-			abbr = abbr.replace(re, function(str, operator, tag_name, attrs, has_multiplier, multiplier, has_expando){
-				var multiply_by_lines = (has_multiplier && !multiplier);
-				multiplier = multiplier ? parseInt(multiplier) : 1;
-				
-				if (has_expando)
-					tag_name += '+';
-				
-				var current = isShippet(tag_name, type) ? new Snippet(tag_name, multiplier, type) : new Tag(tag_name, multiplier, type);
-				if (attrs) {
-					attrs = parseAttributes(attrs);
-					for (var i = 0, il = attrs.length; i < il; i++) {
-						current.addAttribute(attrs[i].name, attrs[i].value);
-					}
-				}
-				
-				// dive into tree
-				if (operator == '>' && last)
-					parent = last;
-					
-				parent.addChild(current);
-				
-				last = current;
-				
-				if (multiply_by_lines)
-					multiply_elem = current;
-				
+			// remove filters from abbreviation
+			var filter_list = '';
+			abbr = abbr.replace(/\|([\w\|\-]+)$/, function(str, p1){
+				filter_list = p1;
 				return '';
 			});
 			
-			root.last = last;
-			root.multiply_elem = multiply_elem;
+			// split abbreviation by groups
+			var group_root = splitByGroups(abbr),
+				tree_root = new Tag('', 1, type);
 			
-			// empty 'abbr' string means that abbreviation was successfully expanded,
-			// if not — abbreviation wasn't valid 
-			return (!abbr) ? root : null;
+			// then recursively expand each group item
+			try {
+				for (var i = 0, il = group_root.children.length; i < il; i++) {
+					expandGroup(group_root.children[i], type, tree_root);
+				}
+			} catch(e) {
+				// there's invalid group, stop parsing
+				return null;
+			}
+			
+			tree_root.filters = filter_list;
+			return tree_root;
 		},
 		
 		/**
@@ -1625,15 +1222,19 @@ var zen_settings = {
 		 * @return {String}
 		 */
 		wrapWithAbbreviation: function(abbr, text, type, profile) {
-			var tree = this.parseIntoTree(abbr, type || 'html');
-			if (tree) {
-				var repeat_elem = tree.multiply_elem || tree.last;
+			type = type || 'html';
+			var tree_root = this.parseIntoTree(abbr, type);
+			if (tree_root) {
+				var repeat_elem = tree_root.multiply_elem || tree_root.last;
 				repeat_elem.setContent(text);
-				repeat_elem.repeat_by_lines = !!tree.multiply_elem;
-				return tree.toString(profile);
-			} else {
-				return null;
+				repeat_elem.repeat_by_lines = !!tree_root.multiply_elem;
+				
+				var tree = rolloutTree(tree_root);
+				this.applyFilters(tree, type, profile, tree_root.filters);
+				return replaceVariables(tree.toString());
 			}
+			
+			return null;
 		},
 		
 		splitByLines: splitByLines,
@@ -1669,7 +1270,9 @@ var zen_settings = {
 		 * @return {String}
 		 */
 		getCaretPlaceholder: function() {
-			return caret_placeholder;
+			return (typeof(caret_placeholder) != 'string') 
+				? caret_placeholder()
+				: caret_placeholder
 		},
 		
 		/**
@@ -1677,10 +1280,115 @@ var zen_settings = {
 		 * You may use a function as a placeholder generator. For example,
 		 * TextMate uses ${0}, ${1}, ..., ${n} natively for quick Tab-switching
 		 * between them.
-		 * @param {String|Function}
+		 * @param {String|Function} value
 		 */
 		setCaretPlaceholder: function(value) {
 			caret_placeholder = value;
+		},
+		
+		rolloutTree: rolloutTree,
+		
+		/**
+		 * Register new filter
+		 * @param {String} name Filter name
+		 * @param {Function} fn Filter function
+		 */
+		registerFilter: function(name, fn) {
+			filters[name] = fn;
+		},
+		
+		/**
+		 * Factory method that produces <code>ZenNode</code> instance
+		 * @param {String} name Node name
+		 * @param {Array} [attrs] Array of attributes as key/value objects  
+		 * @return {ZenNode}
+		 */
+		nodeFactory: function(name, attrs) {
+			return new ZenNode({name: name, attributes: attrs || []});
+		},
+		
+		/**
+		 * Applies filters to tree according to syntax
+		 * @param {ZenNode} tree Tag tree to apply filters to
+		 * @param {String} syntax Syntax name ('html', 'css', etc.)
+		 * @param {String|Object} profile Profile or profile's name
+		 * @param {String|Array} [additional_filters] List or pipe-separated 
+		 * string of additional filters to apply
+		 * 
+		 * @return {ZenNode}
+		 */
+		applyFilters: function(tree, syntax, profile, additional_filters){
+			var _filters = getResource(syntax, 'filters') || basic_filters;
+				
+			if (additional_filters)
+				_filters += '|' + ((typeof(additional_filters) == 'string') 
+					? additional_filters 
+					: additional_filters.join('|'));
+				
+			if (!_filters)
+				// looks like unknown syntax, apply basic filters
+				_filters = basic_filters;
+				
+			return runFilters(tree, profile, _filters);
+		},
+		
+		runFilters: runFilters,
+		
+		repeatString: repeatString,
+		getVariable: getVariable,
+		setVariable: function(name, value) {
+			zen_settings.variables[name] = value;
+		},
+		replaceVariables: replaceVariables,
+		
+		/**
+		 * Escapes special characters used in Zen Coding, like '$', '|', etc.
+		 * Use this method before passing to actions like "Wrap with Abbreviation"
+		 * to make sure that existing spacial characters won't be altered
+		 * @param {String} text
+		 * @return {String}
+		 */
+		escapeText: function(text) {
+			return text.replace(/([\$\|\\])/g, '\\$1');
+		},
+		
+		/**
+		 * Unescapes special characters used in Zen Coding, like '$', '|', etc.
+		 * @param {String} text
+		 * @return {String}
+		 */
+		unescapeText: function(text) {
+			return text.replace(/\\(.)/g, '$1');
+		},
+		
+		/**
+		 * Replaces '$' character in string assuming it might be escaped with '\'
+		 * @param {String} str
+		 * @param {String|Number} value
+		 * @return {String}
+		 */
+		replaceCounter: function(str, value) {
+			var symbol = '$';
+			value = String(value);
+			return replaceUnescapedSymbol(str, symbol, function(str, symbol, pos, match_num){
+				if (str.charAt(pos + 1) == '{') {
+					// it's a variable, skip it
+					return false;
+				}
+				
+				// replace sequense of $ symbols with padded number  
+				var j = pos + 1;
+				while(str.charAt(j) == '$' && str.charAt(j + 1) != '{') j++;
+				return [str.substring(pos, j), zeroPadString(value, j - pos)];
+			});
+		},
+		
+		/**
+		 * Get profile by it's name. If profile wasn't found, returns 'plain'
+		 * profile
+		 */
+		getProfile: function(name) {
+			return (name in profiles) ? profiles[name] : profiles['plain'];
 		},
 		
 		settings_parser: (function(){
@@ -1857,20 +1565,21 @@ function findAbbreviation(editor) {
 /**
  * Find from current caret position and expand abbreviation in editor
  * @param {zen_editor} editor Editor instance
- * @param {String} type Syntax type (html, css, etc.)
- * @param {String} profile_name Output profile name (html, xml, xhtml)
+ * @param {String} [syntax] Syntax type (html, css, etc.)
+ * @param {String} [profile_name] Output profile name (html, xml, xhtml)
  * @return {Boolean} Returns <code>true</code> if abbreviation was expanded 
  * successfully
  */
-function expandAbbreviation(editor, type, profile_name) {
-	profile_name = profile_name || 'xhtml';
+function expandAbbreviation(editor, syntax, profile_name) {
+	syntax = syntax || editor.getSyntax();
+	profile_name = profile_name || editor.getProfileName();
 	
 	var caret_pos = editor.getSelectionRange().end,
 		abbr,
 		content = '';
 		
 	if ( (abbr = findAbbreviation(editor)) ) {
-		content = zen_coding.expandAbbreviation(abbr, type, profile_name);
+		content = zen_coding.expandAbbreviation(abbr, syntax, profile_name);
 		if (content) {
 			editor.replaceContent(content, caret_pos - abbr.length, caret_pos);
 			return true;
@@ -1884,12 +1593,14 @@ function expandAbbreviation(editor, type, profile_name) {
  * A special version of <code>expandAbbreviation</code> function: if it can't
  * find abbreviation, it will place Tab character at caret position
  * @param {zen_editor} editor Editor instance
- * @param {String} type Syntax type (html, css, etc.)
+ * @param {String} syntax Syntax type (html, css, etc.)
  * @param {String} profile_name Output profile name (html, xml, xhtml)
  */
-function expandAbbreviationWithTab(editor, type, profile_name) {
-	if (!expandAbbreviation(editor, type, profile_name))
-		editor.replaceContent('\t', editor.getCaretPos());
+function expandAbbreviationWithTab(editor, syntax, profile_name) {
+	syntax = syntax || editor.getSyntax();
+	profile_name = profile_name || editor.getProfileName();
+	if (!expandAbbreviation(editor, syntax, profile_name))
+		editor.replaceContent(zen_coding.getVariable('indentation'), editor.getCaretPos());
 }
 
 /**
@@ -1898,8 +1609,9 @@ function expandAbbreviationWithTab(editor, type, profile_name) {
  * @param {String} [direction] Direction of pair matching: 'in' or 'out'. 
  * Default is 'out'
  */
-function matchPair(editor, direction) {
+function matchPair(editor, direction, syntax) {
 	direction = (direction || 'out').toLowerCase();
+	syntax = syntax || editor.getProfileName();
 	
 	var range = editor.getSelectionRange(),
 		cursor = range.end,
@@ -1910,8 +1622,8 @@ function matchPair(editor, direction) {
 		range = null,
 		_r,
 	
-		old_open_tag = HTMLPairMatcher.last_match['opening_tag'],
-		old_close_tag = HTMLPairMatcher.last_match['closing_tag'];
+		old_open_tag = zen_coding.html_matcher.last_match['opening_tag'],
+		old_close_tag = zen_coding.html_matcher.last_match['closing_tag'];
 		
 	if (direction == 'in' && old_open_tag && range_start != range_end) {
 //		user has previously selected tag and wants to move inward
@@ -1921,9 +1633,9 @@ function matchPair(editor, direction) {
 		} else if (old_open_tag.start == range_start) {
 			if (content.charAt(old_open_tag.end) == '<') {
 //				test if the first inward tag matches the entire parent tag's content
-				_r = HTMLPairMatcher.find(content, old_open_tag.end + 1);
+				_r = zen_coding.html_matcher.find(content, old_open_tag.end + 1, syntax);
 				if (_r[0] == old_open_tag.end && _r[1] == old_close_tag.start) {
-					range = HTMLPairMatcher(content, old_open_tag.end + 1);
+					range = zen_coding.html_matcher(content, old_open_tag.end + 1, syntax);
 				} else {
 					range = [old_open_tag.end, old_close_tag.start];
 				}
@@ -1933,14 +1645,13 @@ function matchPair(editor, direction) {
 		} else {
 			var new_cursor = content.substring(0, old_close_tag.start).indexOf('<', old_open_tag.end);
 			var search_pos = new_cursor != -1 ? new_cursor + 1 : old_open_tag.end;
-			range = HTMLPairMatcher(content, search_pos);
+			range = zen_coding.html_matcher(content, search_pos, syntax);
 		}
 	} else {
-		range = HTMLPairMatcher(content, cursor);
+		range = zen_coding.html_matcher(content, cursor, syntax);
 	}
 	
 	if (range !== null && range[0] != -1) {
-//		alert(range[0] + ', '+ range[1]);
 		editor.createSelection(range[0], range[1]);
 		return true;
 	} else {
@@ -1949,13 +1660,47 @@ function matchPair(editor, direction) {
 }
 
 /**
+ * Narrow down text indexes, adjusting selection to non-space characters
+ * @param {String} text
+ * @param {Number} start
+ * @param {Number} end
+ * @return {Array}
+ */
+function narrowToNonSpace(text, start, end) {
+	// narrow down selection until first non-space character
+	var re_space = /\s|\n|\r/;
+	function isSpace(ch) {
+		return re_space.test(ch);
+	}
+	
+	while (start < end) {
+		if (!isSpace(text.charAt(start)))
+			break;
+			
+		start++;
+	}
+	
+	while (end > start) {
+		end--;
+		if (!isSpace(text.charAt(end))) {
+			end++;
+			break;
+		}
+	}
+	
+	return [start, end];
+}
+
+/**
  * Wraps content with abbreviation
  * @param {zen_editor} Editor instance
- * @param {String} type Syntax type (html, css, etc.)
- * @param {String} profile_name Output profile name (html, xml, xhtml)
+ * @param {String} abbr Abbreviation to wrap with
+ * @param {String} [syntax] Syntax type (html, css, etc.)
+ * @param {String} [profile_name] Output profile name (html, xml, xhtml)
  */
-function wrapWithAbbreviation(editor, abbr, type, profile_name) {
-	profile_name = profile_name || 'xhtml';
+function wrapWithAbbreviation(editor, abbr, syntax, profile_name) {
+	syntax = syntax || editor.getSyntax();
+	profile_name = profile_name || editor.getProfileName();
 	
 	var range = editor.getSelectionRange(),
 		start_offset = range.start,
@@ -1968,39 +1713,19 @@ function wrapWithAbbreviation(editor, abbr, type, profile_name) {
 	
 	if (start_offset == end_offset) {
 		// no selection, find tag pair
-		range = HTMLPairMatcher(content, start_offset);
+		range = zen_coding.html_matcher(content, start_offset, profile_name);
 		
 		if (!range || range[0] == -1) // nothing to wrap
 			return null;
-			
-		start_offset = range[0];
-		end_offset = range[1];
-			
-		// narrow down selection until first non-space character
-		var re_space = /\s|\n|\r/;
-		function isSpace(ch) {
-			return re_space.test(ch);
-		}
 		
-		while (start_offset < end_offset) {
-			if (!isSpace(content.charAt(start_offset)))
-				break;
-				
-			start_offset++;
-		}
+		var narrowed_sel = narrowToNonSpace(content, range[0], range[1]);
 		
-		while (end_offset > start_offset) {
-			end_offset--;
-			if (!isSpace(content.charAt(end_offset))) {
-				end_offset++;
-				break;
-			}
-		}
-			
+		start_offset = narrowed_sel[0];
+		end_offset = narrowed_sel[1];
 	}
 	
 	var new_content = content.substring(start_offset, end_offset),
-		result = zen_coding.wrapWithAbbreviation(abbr, unindent(editor, new_content), type, profile_name);
+		result = zen_coding.wrapWithAbbreviation(abbr, unindent(editor, new_content), syntax, profile_name);
 	
 	if (result) {
 		editor.setCaretPos(end_offset);
@@ -2015,7 +1740,15 @@ function wrapWithAbbreviation(editor, abbr, type, profile_name) {
  * @return {String}
  */
 function unindent(editor, text) {
-	var pad = getCurrentLinePadding(editor);
+	return unindentText(text, getCurrentLinePadding(editor));
+}
+
+/**
+ * Removes padding at the beginning of each text's line
+ * @param {String} text
+ * @param {String} pad
+ */
+function unindentText(text, pad) {
 	var lines = zen_coding.splitByLines(text);
 	for (var i = 0; i < lines.length; i++) {
 		if (lines[i].search(pad) == 0)
@@ -2031,7 +1764,16 @@ function unindent(editor, text) {
  * @return {String}
  */
 function getCurrentLinePadding(editor) {
-	return (editor.getCurrentLine().match(/^(\s+)/) || [''])[0];
+	return getLinePadding(editor.getCurrentLine());
+}
+
+/**
+ * Returns line padding
+ * @param {String} line
+ * @return {String}
+ */
+function getLinePadding(line) {
+	return (line.match(/^(\s+)/) || [''])[0];
 }
 
 /**
@@ -2135,25 +1877,23 @@ function nextEditPoint(editor) {
  */
 function insertFormattedNewline(editor, mode) {
 	mode = mode || 'html';
-	var caret_pos = editor.getCaretPos();
+	var caret_pos = editor.getCaretPos(),
+		nl = zen_coding.getNewline(),
+		pad = zen_coding.getVariable('indentation');
 		
-	function insert_nl() {
-		editor.replaceContent('\n', caret_pos);
-	}
-	
 	switch (mode) {
 		case 'html':
 			// let's see if we're breaking newly created tag
-			var pair = HTMLPairMatcher.getTags(editor.getContent(), editor.getCaretPos());
+			var pair = zen_coding.html_matcher.getTags(editor.getContent(), editor.getCaretPos(), editor.getProfileName());
 			
 			if (pair[0] && pair[1] && pair[0].type == 'tag' && pair[0].end == caret_pos && pair[1].start == caret_pos) {
-				editor.replaceContent('\n\t|\n', caret_pos);
+				editor.replaceContent(nl + pad + zen_coding.getCaretPlaceholder() + nl, caret_pos);
 			} else {
-				insert_nl();
+				editor.replaceContent(nl, caret_pos);
 			}
 			break;
 		default:
-			insert_nl();
+			editor.replaceContent(nl, caret_pos);
 	}
 }
 
@@ -2178,12 +1918,12 @@ function goToMatchingPair(editor) {
 		// looks like caret is outside of tag pair  
 		caret_pos++;
 		
-	var range = HTMLPairMatcher(content, caret_pos);
+	var tags = zen_coding.html_matcher.getTags(content, caret_pos, editor.getProfileName());
 		
-	if (range && range[0] != -1) {
+	if (tags && tags[0]) {
 		// match found
-		var open_tag = HTMLPairMatcher.last_match.opening_tag,
-			close_tag = HTMLPairMatcher.last_match.closing_tag;
+		var open_tag = tags[0],
+			close_tag = tags[1];
 			
 		if (close_tag) { // exclude unary tags
 			if (open_tag.start <= caret_pos && open_tag.end >= caret_pos)
@@ -2203,7 +1943,7 @@ function mergeLines(editor) {
 	var selection = editor.getSelectionRange();
 	if (selection.start == selection.end) {
 		// find matching tag
-		var pair = HTMLPairMatcher(editor.getContent(), editor.getCaretPos());
+		var pair = zen_coding.html_matcher(editor.getContent(), editor.getCaretPos(), editor.getProfileName());
 		if (pair) {
 			selection.start = pair[0];
 			selection.end = pair[1];
@@ -2224,7 +1964,316 @@ function mergeLines(editor) {
 		editor.replaceContent(text, selection.start, selection.end);
 		editor.createSelection(selection.start, selection.start + text.length);
 	}
-}/**
+}
+
+/**
+ * Toggle comment on current editor's selection or HTML tag/CSS rule
+ * @param {zen_editor} editor
+ */
+function toggleComment(editor) {
+	switch (editor.getSyntax()) {
+		case 'css':
+			return toggleCSSComment(editor);
+		default:
+			return toggleHTMLComment(editor);
+	}
+}
+
+/**
+ * Toggle HTML comment on current selection or tag
+ * @param {zen_editor} editor
+ * @return {Boolean} Returns <code>true</code> if comment was toggled
+ */
+function toggleHTMLComment(editor) {
+	var rng = editor.getSelectionRange(),
+		content = editor.getContent();
+		
+	if (rng.start == rng.end) {
+		// no selection, find matching tag
+		var pair = zen_coding.html_matcher.getTags(content, editor.getCaretPos(), editor.getProfileName());
+		if (pair && pair[0]) { // found pair
+			rng.start = pair[0].start;
+			rng.end = pair[1] ? pair[1].end : pair[0].end;
+		}
+	}
+	
+	return genericCommentToggle(editor, '<!--', '-->', rng.start, rng.end);
+}
+
+/**
+ * Simple CSS commenting
+ * @param {zen_editor} editor
+ * @return {Boolean} Returns <code>true</code> if comment was toggled
+ */
+function toggleCSSComment(editor) {
+	var rng = editor.getSelectionRange();
+		
+	if (rng.start == rng.end) {
+		// no selection, get current line
+		rng = editor.getCurrentLineRange();
+
+		// adjust start index till first non-space character
+		var _r = narrowToNonSpace(editor.getContent(), rng.start, rng.end);
+		rng.start = _r[0];
+		rng.end = _r[1];
+	}
+	
+	return genericCommentToggle(editor, '/*', '*/', rng.start, rng.end);
+}
+
+/**
+ * Search for nearest comment in <code>str</code>, starting from index <code>from</code>
+ * @param {String} text Where to search
+ * @param {Number} from Search start index
+ * @param {String} start_token Comment start string
+ * @param {String} end_token Comment end string
+ * @return {Array|null} Returns null if comment wasn't found
+ */
+function searchComment(text, from, start_token, end_token) {
+	var start_ch = start_token.charAt(0),
+		end_ch = end_token.charAt(0),
+		comment_start = -1,
+		comment_end = -1;
+	
+	function hasMatch(str, start) {
+		return text.substr(start, str.length) == str;
+	}
+		
+	// search for comment start
+	while (from--) {
+		if (text.charAt(from) == start_ch && hasMatch(start_token, from)) {
+			comment_start = from;
+			break;
+		}
+	}
+	
+	if (comment_start != -1) {
+		// search for comment end
+		from = comment_start;
+		var content_len = text.length;
+		while (content_len >= from++) {
+			if (text.charAt(from) == end_ch && hasMatch(end_token, from)) {
+				comment_end = from + end_token.length;
+				break;
+			}
+		}
+	}
+	
+	return (comment_start != -1 && comment_end != -1) 
+		? [comment_start, comment_end] 
+		: null;
+}
+
+/**
+ * Escape special regexp chars in string, making it usable for creating dynamic
+ * regular expressions
+ * @param {String} str
+ * @return {String}
+ */
+function escapeForRegexp(str) {
+  var specials = new RegExp("[.*+?|()\\[\\]{}\\\\]", "g"); // .*+?|()[]{}\
+  return str.replace(specials, "\\$&");
+}
+
+/**
+ * Generic comment toggling routine
+ * @param {zen_editor} editor
+ * @param {String} comment_start Comment start token
+ * @param {String} comment_end Comment end token
+ * @param {Number} range_start Start selection range
+ * @param {Number} range_end End selection range
+ * @return {Boolean}
+ */
+function genericCommentToggle(editor, comment_start, comment_end, range_start, range_end) {
+	var content = editor.getContent(),
+		caret_pos = editor.getCaretPos(),
+		new_content = null;
+		
+	/**
+	 * Remove comment markers from string
+	 * @param {Sting} str
+	 * @return {String}
+	 */
+	function removeComment(str) {
+		return str
+			.replace(new RegExp('^' + escapeForRegexp(comment_start) + '\\s*'), function(str){
+				caret_pos -= str.length;
+				return '';
+			}).replace(new RegExp('\\s*' + escapeForRegexp(comment_end) + '$'), '');
+	}
+	
+	function hasMatch(str, start) {
+		return content.substr(start, str.length) == str;
+	}
+		
+	// first, we need to make sure that this substring is not inside 
+	// comment
+	var comment_range = searchComment(content, caret_pos, comment_start, comment_end);
+	
+	if (comment_range && comment_range[0] <= range_start && comment_range[1] >= range_end) {
+		// we're inside comment, remove it
+		range_start = comment_range[0];
+		range_end = comment_range[1];
+		
+		new_content = removeComment(content.substring(range_start, range_end));
+	} else {
+		// should add comment
+		// make sure that there's no comment inside selection
+		new_content = comment_start + ' ' + 
+			content.substring(range_start, range_end)
+				.replace(new RegExp(escapeForRegexp(comment_start) + '\\s*|\\s*' + escapeForRegexp(comment_end), 'g'), '') +
+			' ' + comment_end;
+			
+		// adjust caret position
+		caret_pos += comment_start.length + 1;
+	}
+
+	// replace editor content
+	if (new_content !== null) {
+		editor.setCaretPos(range_start);
+		editor.replaceContent(unindent(editor, new_content), range_start, range_end);
+		editor.setCaretPos(caret_pos);
+		return true;
+	}
+	
+	return false;
+}
+
+/**
+ * Splits or joins tag, e.g. transforms it into a short notation and vice versa:<br>
+ * &lt;div&gt;&lt;/div&gt; → &lt;div /&gt; : join<br>
+ * &lt;div /&gt; → &lt;div&gt;&lt;/div&gt; : split
+ * @param {zen_editor} editor Editor instance
+ * @param {String} [profile_name] Profile name
+ */
+function splitJoinTag(editor, profile_name) {
+	var caret_pos = editor.getCaretPos(),
+		profile = zen_coding.getProfile(profile_name || editor.getProfileName()),
+		caret = zen_coding.getCaretPlaceholder();
+
+	// find tag at current position
+	var pair = zen_coding.html_matcher.getTags(editor.getContent(), caret_pos, editor.getProfileName());
+	if (pair && pair[0]) {
+		var new_content = pair[0].full_tag;
+		
+		if (pair[1]) { // join tag
+			var closing_slash = ' /';
+			if (profile.self_closing_tag === true)
+				closing_slash = '/';
+				
+			new_content = new_content.replace(/\s*>$/, closing_slash + '>');
+			
+			// add caret placeholder
+			if (new_content.length + pair[0].start < caret_pos)
+				new_content += caret;
+			else {
+				var d = caret_pos - pair[0].start;
+				new_content = new_content.substring(0, d) + caret + new_content.substring(d);
+			}
+			
+			editor.replaceContent(new_content, pair[0].start, pair[1].end);
+		} else { // split tag
+			var nl = zen_coding.getNewline(),
+				pad = zen_coding.getVariable('indentation');
+			
+			// define tag content depending on profile
+			var tag_content = (profile.tag_nl === true)
+					? nl + pad +caret + nl
+					: caret;
+					
+			new_content = new_content.replace(/\s*\/>$/, '>') + tag_content + '</' + pair[0].name + '>';
+			editor.replaceContent(new_content, pair[0].start, pair[0].end);
+		}
+		
+		return true;
+	} else {
+		return false;
+	}
+}
+
+/**
+ * Returns line bounds for specific character position
+ * @param {String} text
+ * @param {Number} from Where to start searching
+ * @return {Object}
+ */
+function getLineBounds(text, from) {
+	var len = text.length,
+		start = 0,
+		end = len - 1;
+	
+	// search left
+	for (var i = from - 1; i > 0; i--) {
+		var ch = text.charAt(i);
+		if (ch == '\n' || ch == '\r') {
+			start = i + 1;
+			break;
+		}
+	}
+	// search right
+	for (var j = from; j < len; j++) {
+		var ch = text.charAt(j);
+		if (ch == '\n' || ch == '\r') {
+			end = j;
+			break;
+		}
+	}
+	
+	return {start: start, end: end};
+}
+
+/**
+ * Gracefully removes tag under cursor
+ * @param {zen_editor} editor
+ */
+function removeTag(editor) {
+	var caret_pos = editor.getCaretPos(),
+		content = editor.getContent();
+		
+	// search for tag
+	var pair = zen_coding.html_matcher.getTags(content, caret_pos, editor.getProfileName());
+	if (pair && pair[0]) {
+		if (!pair[1]) {
+			// simply remove unary tag
+			editor.replaceContent(zen_coding.getCaretPlaceholder(), pair[0].start, pair[0].end);
+		} else {
+			var tag_content_range = narrowToNonSpace(content, pair[0].end, pair[1].start),
+				start_line_bounds = getLineBounds(content, tag_content_range[0]),
+				start_line_pad = getLinePadding(content.substring(start_line_bounds.start, start_line_bounds.end)),
+				tag_content = content.substring(tag_content_range[0], tag_content_range[1]);
+				
+			tag_content = unindentText(tag_content, start_line_pad);
+			editor.replaceContent(zen_coding.getCaretPlaceholder() + tag_content, pair[0].start, pair[1].end);
+		}
+		
+		return true;
+	} else {
+		return false;
+	}
+}
+
+// register all actions
+zen_coding.registerAction('expand_abbreviation', expandAbbreviation);
+zen_coding.registerAction('expand_abbreviation_with_tab', expandAbbreviationWithTab);
+zen_coding.registerAction('match_pair', matchPair);
+zen_coding.registerAction('match_pair_inward', function(editor){
+	matchPair(editor, 'in');
+});
+
+zen_coding.registerAction('match_pair_outward', function(editor){
+	matchPair(editor, 'out');
+});
+zen_coding.registerAction('wrap_with_abbreviation', wrapWithAbbreviation);
+zen_coding.registerAction('prev_edit_point', prevEditPoint);
+zen_coding.registerAction('next_edit_point', nextEditPoint);
+zen_coding.registerAction('insert_formatted_line_break', insertFormattedNewline);
+zen_coding.registerAction('select_line', selectLine);
+zen_coding.registerAction('matching_pair', goToMatchingPair);
+zen_coding.registerAction('merge_lines', mergeLines);
+zen_coding.registerAction('toggle_comment', toggleComment);
+zen_coding.registerAction('split_join_tag', splitJoinTag);
+zen_coding.registerAction('remove_tag', removeTag);
+/**
  * @author Sergey Chikuyonok (serge.che@gmail.com)
  * @link http://chikuyonok.ru
  */(function(){
@@ -2246,6 +2295,9 @@ function mergeLines(editor) {
 	// (and which close themselves)
 	var close_self = makeMap("colgroup,dd,dt,li,options,p,td,tfoot,th,thead,tr");
 	
+	/** Current matching mode */
+	var cur_mode = 'xhtml';
+	
 	/** Last matched HTML pair */
 	var last_match = {
 		opening_tag: null, // tag() or comment() object
@@ -2254,6 +2306,13 @@ function mergeLines(editor) {
 		end_ix: -1
 	};
 	
+	function setMode(new_mode) {
+		if (!new_mode || new_mode != 'html')
+			new_mode = 'xhtml';
+			
+		cur_mode = new_mode;
+	}
+	
 	function tag(match, ix) {
 		var name = match[1].toLowerCase();
 		return  {
@@ -2261,9 +2320,10 @@ function mergeLines(editor) {
 			full_tag: match[0],
 			start: ix,
 			end: ix + match[0].length,
-			unary: Boolean(match[3]) || (name in empty),
+			unary: Boolean(match[3]) || (name in empty && cur_mode == 'html'),
+			has_close: Boolean(match[3]),
 			type: 'tag',
-			close_self: (name in close_self)
+			close_self: (name in close_self && cur_mode == 'html')
 		};
 	}
 	
@@ -2333,6 +2393,21 @@ function mergeLines(editor) {
 	}
 	
 	/**
+	 * Handle unary tag: find closing tag if needed
+	 * @param {String} text
+	 * @param {Number} ix
+	 * @param {tag} open_tag
+	 * @return {tag|null} Closing tag (or null if not found) 
+	 */
+	function handleUnaryTag(text, ix, open_tag) {
+		if (open_tag.has_close)
+			return null;
+		else {
+			// TODO finish this method
+		}
+	}
+	
+	/**
 	 * Search for matching tags in <code>html</code>, starting from 
 	 * <code>start_ix</code> position
 	 * @param {String} html Code to search
@@ -2341,8 +2416,9 @@ function mergeLines(editor) {
 	 * @param {Function} action Function that creates selection range
 	 * @return {Array|null}
 	 */
-	function findPair(html, start_ix, action) {
+	function findPair(html, start_ix, mode, action) {
 		action = action || makeRange;
+		setMode(mode);
 		
 		var forward_stack = [],
 			backward_stack = [],
@@ -2393,7 +2469,8 @@ function mergeLines(editor) {
 					
 					if (tmp_tag.unary) {
 						if (tmp_tag.start < start_ix && tmp_tag.end > start_ix) // exact match
-							return saveMatch(tmp_tag, null, start_ix);
+							// TODO handle unary tag 
+							return action(tmp_tag, null, start_ix);
 					} else if (backward_stack.last() && backward_stack.last().name == tmp_tag.name) {
 						backward_stack.pop();
 					} else { // found nearest unclosed tag
@@ -2403,7 +2480,7 @@ function mergeLines(editor) {
 				} else if (check_str.indexOf('<!--') == 0) { // found comment start
 					var end_ix = check_str.search('-->') + ix + 3;
 					if (ix < start_ix && end_ix >= start_ix)
-						return saveMatch( comment(ix, end_ix) );
+						return action( comment(ix, end_ix) );
 				}
 			} else if (ch == '-' && hasMatch('-->')) { // found comment end
 				// search left until comment start is reached
@@ -2456,8 +2533,8 @@ function mergeLines(editor) {
 	 * 
 	 * @return {Array|null}
 	 */
-	var HTMLPairMatcher = this.HTMLPairMatcher = function(/* String */ html, /* Number */ start_ix){
-		return findPair(html, start_ix, saveMatch);
+	var HTMLPairMatcher = this.HTMLPairMatcher = function(/* String */ html, /* Number */ start_ix, /*  */ mode){
+		return findPair(html, start_ix, mode, saveMatch);
 	}
 	
 	HTMLPairMatcher.start_tag = start_tag;
@@ -2470,8 +2547,8 @@ function mergeLines(editor) {
 	 * method doesn't save matched result in <code>last_match</code> property.
 	 * This method is generally used for lookups 
 	 */
-	HTMLPairMatcher.find = function(html, start_ix) {
-		return findPair(html, start_ix);
+	HTMLPairMatcher.find = function(html, start_ix, mode) {
+		return findPair(html, start_ix, mode);
 	};
 	
 	/**
@@ -2482,156 +2559,20 @@ function mergeLines(editor) {
 	 * and returns array of opening and closing tags
 	 * This method is generally used for lookups 
 	 */
-	HTMLPairMatcher.getTags = function(html, start_ix) {
-		return findPair(html, start_ix, function(opening_tag, closing_tag){
+	HTMLPairMatcher.getTags = function(html, start_ix, mode) {
+		return findPair(html, start_ix, mode, function(opening_tag, closing_tag){
 			return [opening_tag, closing_tag];
 		});
 	};
 	
 	HTMLPairMatcher.last_match = last_match;
-})();/**
- * Eclipse layer for Zen Coding
- * @author Sergey Chikuyonok (serge.che@gmail.com)
- * @link http://chikuyonok.ru
- * 
- * @include "/EclipseMonkey/scripts/monkey-doc.js"
- * @include "zen_coding.js"
- */
-
-/**
- * If you're using Tab key, you have to set this variable to 'true'
- * @type Boolean
- */
-var use_tab = false;
-
-/**
- * Get the type of the partition based on the current offset
- * @param {Number} offset
- * @return {String}
- */
-function getPartition(offset){
-	var class_name = String(editors.activeEditor.textEditor.getClass());
-	if (class_name.toLowerCase().indexOf('xsleditor') != -1)
-		return 'text/xsl';
-		
+	
 	try {
-
-		var fileContext = editors.activeEditor.textEditor.getFileContext();
-
-		if (fileContext !== null && fileContext !== undefined) {
-			var partition = fileContext.getPartitionAtOffset(offset);
-			return String(partition.getType());
-		}
-	} catch(e) {}
-
-	return null;
-}
-
-/**
- * Returns current editor type ('css', 'html', etc)
- * @return {String|null}
- */
-function getEditorType() {
-	var content_types = {
-		'text/html':  'html',
-		'text/xml' :  'xml',
-		'text/css' :  'css',
-		'text/xsl' :  'xsl'
-	};
+		zen_coding.html_matcher = HTMLPairMatcher;
+	} catch(e){}
 	
-	return content_types[getPartition(editors.activeEditor.currentOffset)];
-}
-
-function expandTab() {
-	var editor = editors.activeEditor,
-		start_offset = editor.selectionRange.startingOffset,
-		end_offset = editor.selectionRange.endingOffset,
-		start_line = editor.getLineAtOffset(start_offset),
-		end_line = editor.getLineAtOffset(end_offset),
-		
-		indent = zen_settings.variables.indentation;
-		
-	var start_line_offset = editor.getOffsetAtLine(start_line),
-			end_line_offset = editor.getOffsetAtLine(end_line + 1) - zen_coding.getNewline().length;
-			
-	if (start_line != end_line) {
-		// selecated a few lines, indent them
-		content = editor.source.substring(start_line_offset, end_line_offset);
-		var new_content = indent + zen_coding.padString(content, 1);
-		
-		editor.applyEdit(start_line_offset, content.length, new_content);
-		editor.selectAndReveal(start_line_offset, indent.length + content.length + end_line - start_line);
-	} else {
-		// selection spans just a single string, replace indentation
-		editor.applyEdit(start_offset, end_offset - start_offset, indent);
-		editor.currentOffset++;
-	}
-}
-
-function guessProfileName() {
-	switch(getEditorType()) {
-		 case 'xml':
-		 case 'xsl':
-		 	return 'xml';
-		 case 'html':
-		 	// html or xhtml?
-		 	return editors.activeEditor.source.search(/<!DOCTYPE[^>]+XHTML.+?>/) != -1 
-		 		? 'xhtml'
-		 		: 'html';
-	}
-	
-	return 'html';
-}
-
-function printMessage(message) {
-	out.println(message);
-}
-
-/**
- * @return {LexemeList}
- */
-function getLexemeList() {
-	var result = null;
-	var fileContext = getFileContext();
-	
-	if (fileContext !== null && fileContext !== undefined) {
-		result = fileContext.getLexemeList();
-	}
-	
-	return result;
-}
-
-/**
- * @return {FileContext}
- */
-function getFileContext() {
-	var result = null;
-	
-	try	{
-		result = editors.activeEditor.textEditor.getFileContext();
-	} catch(e) {}
-	
-	return result;
-}
-
-/**
- * Return lexeme from position
- * @param {Number} pos Position where to get lexeme
- * @return {Object}
- */
-function getLexemeFromPosition(pos){
-	var lexemeList = getLexemeList(), lx;
-	if (lexemeList != null && lexemeList.size() > 0){
-		for (var i = 0; i < lexemeList.size(); i++){
-			lx = lexemeList.get(i);
-			if(lx.getStartingOffset() <= pos && lx.getEndingOffset() >= pos){
-				return lx;
-			}
-		}
-	}
-
-	return null;
-}/**
+})();return zen_coding;	
+})();/**
  * Zen Editor interface for EclipseMonkey  
  * @author Sergey Chikuyonok (serge.che@gmail.com)
  * @link http://chikuyonok.ru
@@ -2641,7 +2582,8 @@ function getLexemeFromPosition(pos){
  */
 var zen_editor = (function(){
 	/** @type {editors.activeEditor} */
-	var editor;
+	var editor,
+		is_filters_loaded = false;
 	
 	/**
 	 * Returns whitrespace padding of string
@@ -2666,9 +2608,13 @@ var zen_editor = (function(){
 	 * @return {String}
 	 */
 	function getPartition(offset){
-		var class_name = String(editor.textEditor.getClass());
-		if (class_name.toLowerCase().indexOf('xsleditor') != -1)
+		var class_name = String(editor.textEditor.getClass()).toLowerCase();
+		if (class_name.indexOf('xsleditor') != -1)
 			return 'text/xsl';
+		else if (class_name.indexOf('hamleditor') != -1)
+			return 'text/haml';
+		else if (class_name.indexOf('sasseditor') != -1)
+			return 'text/css';
 			
 		try {
 			var fileContext = editor.textEditor.getFileContext();
@@ -2691,6 +2637,7 @@ var zen_editor = (function(){
 			'text/html':  'html',
 			'text/xml' :  'xml',
 			'text/css' :  'css',
+			'text/haml':  'haml',
 			'text/xsl' :  'xsl'
 		};
 		
@@ -2743,6 +2690,29 @@ var zen_editor = (function(){
 		return null;
 	}
 	
+	/**
+	 * Dynamically load Zen Coding filters
+	 */
+	function loadFilters() {
+		if (is_filters_loaded)
+			return;
+			
+		var File = Packages.java.io.File;
+		var f = new File(location);
+		var filter_dir = new File(f.getParent(), 'filters')
+		
+		if (filter_dir.exists()) {
+			var files = filter_dir.listFiles();
+			for (var i = 0, il = files.length; i < il; i++) {
+				var file = files[i];
+				if (file.getName().toLowerCase().endsWith('.js'))
+					include(file);
+			}
+			
+			is_filters_loaded = true
+		}
+	}
+	
 	return {
 		/**
 		 * Depreacted name of <code>setContext</code> method
@@ -2762,6 +2732,7 @@ var zen_editor = (function(){
 		setContext: function(context) {
 			editor = context;
 			zen_coding.setNewline(editor.lineDelimiter);
+			loadFilters();
 		},
 		
 		/**
@@ -2875,10 +2846,10 @@ var zen_editor = (function(){
 				caret_pos = (start || 0) + new_pos;
 				value = value.split(caret_placeholder).join('');
 			} else {
-				caret_pos += value.length;
+				caret_pos = value.length + (start || 0);
 			}
 			
-			editor.beginCompoundChange();
+//			editor.beginCompoundChange();
 			try {
 				if (has_start && has_end) {
 					editor.applyEdit(start, end - start, value);
@@ -2890,7 +2861,7 @@ var zen_editor = (function(){
 				
 				this.setCaretPos(caret_pos);
 			} catch(e){}
-			editor.endCompoundChange();
+//			editor.endCompoundChange();
 		},
 		
 		/**
@@ -2904,7 +2875,19 @@ var zen_editor = (function(){
 		 * @return {String}
 		 */
 		getSyntax: function(){
-			return getEditorType() || 'html';
+			var syntax = getEditorType() || 'html';
+			
+			if (syntax == 'html') {
+				// get the context tag
+				var pair = zen_coding.html_matcher.getTags(this.getContent(), this.getCaretPos());
+				if (pair && pair[0] && pair[0].type == 'tag' && pair[0].name.toLowerCase() == 'style') {
+					// check that we're actually inside the tag
+					if (pair[0].end <= caret_pos && pair[1].start >= caret_pos)
+						syntax = 'css';
+				}
+			}
+			
+			return syntax;
 		},
 		
 		/**
@@ -2918,12 +2901,12 @@ var zen_editor = (function(){
 				 	return 'xml';
 				 case 'html':
 				 	// html or xhtml?
-				 	return getContent().search(/<!DOCTYPE[^>]+XHTML.+?>/) != -1 
+				 	return this.getContent().search(/<!DOCTYPE[^>]+XHTML/) != -1 
 				 		? 'xhtml'
 				 		: 'html';
 			}
 			
-			return 'html';
+			return 'xhtml';
 		}
 	};
 })();

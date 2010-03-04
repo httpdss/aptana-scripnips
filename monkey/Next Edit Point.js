@@ -12,5 +12,5 @@ include('zencoding.js');
 
 function main() {
 	zen_editor.setContext(editors.activeEditor);
-	nextEditPoint(zen_editor);
+	zen_coding.runAction('next_edit_point', zen_editor);
 }

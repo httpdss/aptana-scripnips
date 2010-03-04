@@ -1,0 +1,14 @@
+<!--
+    category: Gtk
+    name: create connect action
+    prompt(self): With self
+    prompt(widget_name): Enter widget name
+    prompt(event): Enter event name
+    
+-->
+    ${self}${widget_name}.connect('${event}',self.__${widget_name}_${event}_cb())
+
+def __${widget_name}_${event}_cb(self, button):
+    """ Callback function for ${widget_name} """
+    # TODO fill button Callback function (${widget_name})
+    pass

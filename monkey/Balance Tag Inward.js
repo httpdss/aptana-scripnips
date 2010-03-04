@@ -12,5 +12,5 @@ include('zencoding.js');
 
 function main() {
 	zen_editor.setContext(editors.activeEditor);
-	matchPair(zen_editor, 'in');
+	zen_coding.runAction('match_pair_inward', zen_editor);
 }

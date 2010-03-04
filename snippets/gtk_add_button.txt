@@ -1,0 +1,16 @@
+<!--
+    category: Gtk
+    name: add button
+    prompt(btn_name): Enter button name
+    prompt(tooltip): Enter tooltip
+-->
+    self._${btn_name}_button = ToolButton('${btn_name}')
+    self._${btn_name}_button.set_tooltip(_('${tooltip}'))
+    self._${btn_name}_button.connect('clicked', self.__${btn_name}_cb)
+    toolbar_box.toolbar.insert(self._${btn_name}_button, -1)
+    self._${btn_name}_button.show()
+
+def __${btn_name}_cb(self, button):
+    """ Callback function for ${name} """
+    # TODO fill button Callback function (${btn_name})
+    pass

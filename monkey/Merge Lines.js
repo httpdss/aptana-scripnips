@@ -14,5 +14,5 @@ include('zencoding.js');
 
 function main() {
 	zen_editor.setContext(editors.activeEditor);
-	mergeLines(zen_editor);
+	zen_coding.runAction('merge_lines', zen_editor);
 }
